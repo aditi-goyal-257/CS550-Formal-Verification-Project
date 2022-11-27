@@ -28681,3 +28681,473 @@ java.lang.IndexOutOfBoundsException: 0
 
 2022.11.18 19:23:28 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Wip.scala[0m
 2022.11.18 19:26:03 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Wip.scala[0m
+2022.11.23 15:44:29 INFO  tracing is disabled for protocol LSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/aditi/Documents/epfl/studies/CS550/project/code/.metals/lsp.trace.json or /home/aditi/.cache/metals/lsp.trace.json
+2022.11.23 15:44:29 INFO  logging to file /home/aditi/Documents/epfl/studies/CS550/project/code/.metals/metals.log
+2022.11.23 15:44:29 INFO  Started: Metals version 0.11.9 in workspace '/home/aditi/Documents/epfl/studies/CS550/project/code' for client Visual Studio Code 1.71.2.
+2022.11.23 15:44:33 INFO  time: initialize in 4.19s
+2022.11.23 15:44:35 WARN  Build server is not auto-connectable.
+2022.11.23 15:44:35 WARN  no build tool detected in workspace '/home/aditi/Documents/epfl/studies/CS550/project/code'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. 
+2022.11.23 15:44:35 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Wip.scala
+2022.11.23 15:44:35 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.23 15:44:38 INFO  no build target found for /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala. Using presentation compiler with project's scala-library version: 3.2.0
+2022.11.23 15:44:40 INFO  time: code lens generation in 4.63s
+2022.11.23 15:44:44 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Wip.scala
+Nov 23, 2022 3:45:54 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 161
+2022.11.23 15:46:15 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Wip.scala
+2022.11.23 17:21:11 INFO  shutting down Metals
+2022.11.24 11:48:59 INFO  tracing is disabled for protocol LSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/aditi/Documents/epfl/studies/CS550/project/code/.metals/lsp.trace.json or /home/aditi/.cache/metals/lsp.trace.json
+2022.11.24 11:48:59 INFO  logging to file /home/aditi/Documents/epfl/studies/CS550/project/code/.metals/metals.log
+2022.11.24 11:48:59 INFO  Started: Metals version 0.11.9 in workspace '/home/aditi/Documents/epfl/studies/CS550/project/code' for client Visual Studio Code 1.71.2.
+2022.11.24 11:49:01 INFO  time: initialize in 1.21s
+2022.11.24 11:49:03 WARN  Build server is not auto-connectable.
+2022.11.24 11:49:03 WARN  no build tool detected in workspace '/home/aditi/Documents/epfl/studies/CS550/project/code'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. 
+2022.11.24 11:49:03 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Wip.scala
+2022.11.24 11:49:05 INFO  no build target found for /home/aditi/Documents/epfl/studies/CS550/project/code/Wip.scala. Using presentation compiler with project's scala-library version: 3.2.0
+2022.11.24 11:49:06 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 11:49:08 INFO  time: code lens generation in 5.2s
+2022.11.24 11:49:08 INFO  time: code lens generation in 1.37s
+2022.11.24 11:50:28 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Wip.scala
+2022.11.24 11:50:51 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Wip.scala
+2022.11.24 11:51:26 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Wip.scala
+2022.11.24 11:52:13 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Wip.scala
+2022.11.24 11:52:17 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Wip.scala
+2022.11.24 11:52:35 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Wip.scala
+Nov 24, 2022 11:53:06 AM scala.meta.internal.pc.CompilerAccess handleError
+SEVERE: 0
+java.lang.IndexOutOfBoundsException: 0
+	at scala.collection.LinearSeqOps.apply(LinearSeq.scala:131)
+	at scala.collection.LinearSeqOps.apply$(LinearSeq.scala:128)
+	at scala.collection.immutable.List.apply(List.scala:79)
+	at dotty.tools.dotc.util.Signatures$.countParams(Signatures.scala:436)
+	at dotty.tools.dotc.util.Signatures$.applyCallInfo(Signatures.scala:156)
+	at dotty.tools.dotc.util.Signatures$.computeSignatureHelp(Signatures.scala:91)
+	at dotty.tools.dotc.util.Signatures$.signatureHelp(Signatures.scala:61)
+	at scala.meta.internal.pc.MetalsSignatures$.signatures(MetalsSignatures.scala:22)
+	at scala.meta.internal.pc.SignatureHelpProvider$.signatureHelp(SignatureHelpProvider.scala:56)
+
+2022.11.24 11:53:11 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Wip.scala
+2022.11.24 12:38:38 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Point.scala
+2022.11.24 12:41:20 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Point.scala
+2022.11.24 12:41:31 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Point.scala
+2022.11.24 12:42:13 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Point.scala
+Nov 24, 2022 12:48:01 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 822
+Nov 24, 2022 12:48:02 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 823
+Nov 24, 2022 12:49:32 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 1064
+2022.11.24 12:52:20 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 12:56:08 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 12:57:50 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Wip.scala
+2022.11.24 12:58:29 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Wip.scala
+2022.11.24 13:00:26 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 13:00:49 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 13:01:21 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 13:01:58 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 13:02:15 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 13:06:26 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Wip.scala
+2022.11.24 13:09:12 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Wip.scala
+2022.11.24 13:12:34 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 13:12:39 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 13:12:44 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 13:13:05 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Wip.scala
+2022.11.24 13:13:37 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 13:16:36 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+Nov 24, 2022 1:18:22 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 3524
+2022.11.24 13:20:27 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 13:20:32 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 13:21:13 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 13:21:32 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 13:21:50 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+Nov 24, 2022 1:22:52 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint fallbackResponseError
+SEVERE: Internal error: java.lang.StringIndexOutOfBoundsException: begin 6640, end 6655, length 6647
+java.util.concurrent.CompletionException: java.lang.StringIndexOutOfBoundsException: begin 6640, end 6655, length 6647
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:331)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:346)
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:704)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(CompletableFuture.java:2088)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1(CancelTokens.scala:40)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1$adapted(CancelTokens.scala:38)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:484)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.lang.StringIndexOutOfBoundsException: begin 6640, end 6655, length 6647
+	at java.base/java.lang.String.checkBoundsBeginEnd(String.java:3319)
+	at java.base/java.lang.String.substring(String.java:1874)
+	at scala.meta.internal.metals.codeactions.FlatMapToForComprehensionCodeAction.getIndentForPos(FlatMapToForComprehensionCodeAction.scala:667)
+	at scala.meta.internal.metals.codeactions.FlatMapToForComprehensionCodeAction.$anonfun$contribute$4(FlatMapToForComprehensionCodeAction.scala:55)
+	at scala.Option.map(Option.scala:242)
+	at scala.meta.internal.metals.codeactions.FlatMapToForComprehensionCodeAction.$anonfun$contribute$3(FlatMapToForComprehensionCodeAction.scala:51)
+	at scala.Option.flatMap(Option.scala:283)
+	at scala.meta.internal.metals.codeactions.FlatMapToForComprehensionCodeAction.$anonfun$contribute$2(FlatMapToForComprehensionCodeAction.scala:50)
+	at scala.Option.flatMap(Option.scala:283)
+	at scala.meta.internal.metals.codeactions.FlatMapToForComprehensionCodeAction.$anonfun$contribute$1(FlatMapToForComprehensionCodeAction.scala:49)
+	at scala.concurrent.Future$.$anonfun$apply$1(Future.scala:678)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:467)
+	... 3 more
+
+2022.11.24 13:23:14 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Wip.scala
+2022.11.24 13:23:16 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 13:23:32 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 13:23:51 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 13:26:13 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+Nov 24, 2022 1:29:25 PM scala.meta.internal.pc.CompilerAccess handleError
+SEVERE: 0
+java.lang.IndexOutOfBoundsException: 0
+	at scala.collection.LinearSeqOps.apply(LinearSeq.scala:131)
+	at scala.collection.LinearSeqOps.apply$(LinearSeq.scala:128)
+	at scala.collection.immutable.List.apply(List.scala:79)
+	at dotty.tools.dotc.util.Signatures$.countParams(Signatures.scala:436)
+	at dotty.tools.dotc.util.Signatures$.applyCallInfo(Signatures.scala:156)
+	at dotty.tools.dotc.util.Signatures$.computeSignatureHelp(Signatures.scala:91)
+	at dotty.tools.dotc.util.Signatures$.signatureHelp(Signatures.scala:61)
+	at scala.meta.internal.pc.MetalsSignatures$.signatures(MetalsSignatures.scala:22)
+	at scala.meta.internal.pc.SignatureHelpProvider$.signatureHelp(SignatureHelpProvider.scala:56)
+
+Nov 24, 2022 1:30:15 PM scala.meta.internal.pc.CompilerAccess handleError
+SEVERE: 0
+java.lang.IndexOutOfBoundsException: 0
+	at scala.collection.LinearSeqOps.apply(LinearSeq.scala:131)
+	at scala.collection.LinearSeqOps.apply$(LinearSeq.scala:128)
+	at scala.collection.immutable.List.apply(List.scala:79)
+	at dotty.tools.dotc.util.Signatures$.countParams(Signatures.scala:436)
+	at dotty.tools.dotc.util.Signatures$.applyCallInfo(Signatures.scala:156)
+	at dotty.tools.dotc.util.Signatures$.computeSignatureHelp(Signatures.scala:91)
+	at dotty.tools.dotc.util.Signatures$.signatureHelp(Signatures.scala:61)
+	at scala.meta.internal.pc.MetalsSignatures$.signatures(MetalsSignatures.scala:22)
+	at scala.meta.internal.pc.SignatureHelpProvider$.signatureHelp(SignatureHelpProvider.scala:56)
+
+2022.11.24 13:30:31 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 13:33:42 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Wip.scala
+2022.11.24 13:33:43 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Wip.scala
+2022.11.24 13:36:39 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 13:39:14 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 13:40:01 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Wip.scala
+2022.11.24 13:40:04 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 13:43:04 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 13:44:53 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+Nov 24, 2022 1:44:57 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 5165
+2022.11.24 13:44:58 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 13:47:56 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 13:48:09 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 13:49:35 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 13:50:40 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 15:17:55 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 15:18:39 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+Nov 24, 2022 3:22:01 PM scala.meta.internal.pc.CompilerAccess handleError
+SEVERE: 0
+java.lang.IndexOutOfBoundsException: 0
+	at scala.collection.LinearSeqOps.apply(LinearSeq.scala:131)
+	at scala.collection.LinearSeqOps.apply$(LinearSeq.scala:128)
+	at scala.collection.immutable.List.apply(List.scala:79)
+	at dotty.tools.dotc.util.Signatures$.countParams(Signatures.scala:436)
+	at dotty.tools.dotc.util.Signatures$.applyCallInfo(Signatures.scala:156)
+	at dotty.tools.dotc.util.Signatures$.computeSignatureHelp(Signatures.scala:91)
+	at dotty.tools.dotc.util.Signatures$.signatureHelp(Signatures.scala:61)
+	at scala.meta.internal.pc.MetalsSignatures$.signatures(MetalsSignatures.scala:22)
+	at scala.meta.internal.pc.SignatureHelpProvider$.signatureHelp(SignatureHelpProvider.scala:56)
+
+2022.11.24 15:23:04 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 15:23:16 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 15:26:19 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 15:26:34 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 15:27:59 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 15:28:14 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 15:32:16 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 15:32:50 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 15:33:17 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 15:34:06 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 15:39:28 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 15:40:39 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 15:42:25 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 15:43:23 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 15:43:31 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 15:44:14 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 15:45:11 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 15:47:34 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+Nov 24, 2022 3:49:20 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 7462
+2022.11.24 15:49:21 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+Nov 24, 2022 3:51:35 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 7519
+2022.11.24 15:53:48 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 15:55:01 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 15:56:48 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+Nov 24, 2022 3:57:28 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 8029
+2022.11.24 15:57:30 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 15:57:57 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 16:00:53 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 16:01:39 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 16:03:12 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 16:06:40 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 16:08:52 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 16:09:02 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 16:09:23 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 16:09:23 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 16:09:58 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 16:23:19 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 16:23:25 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+Nov 24, 2022 4:24:14 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 9317
+2022.11.24 16:24:25 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 16:24:42 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 16:25:01 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+Nov 24, 2022 4:25:32 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 9576
+2022.11.24 16:28:01 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 16:28:05 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 16:29:18 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 16:30:56 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 16:31:05 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 16:33:52 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 16:34:41 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 16:35:50 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 16:36:24 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 16:52:35 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 16:52:36 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala
+2022.11.24 19:31:39 INFO  shutting down Metals
+2022.11.27 10:38:47 INFO  tracing is disabled for protocol LSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/aditi/Documents/epfl/studies/CS550/project/code/.metals/lsp.trace.json or /home/aditi/.cache/metals/lsp.trace.json[0m
+2022.11.27 10:38:47 INFO  logging to file /home/aditi/Documents/epfl/studies/CS550/project/code/.metals/metals.log[0m
+2022.11.27 10:38:47 INFO  Started: Metals version 0.11.9 in workspace '/home/aditi/Documents/epfl/studies/CS550/project/code' for client Visual Studio Code 1.73.1.[0m
+2022.11.27 10:38:49 INFO  time: initialize in 1.41s[0m
+2022.11.27 10:38:50 WARN  Build server is not auto-connectable.[0m
+2022.11.27 10:38:50 WARN  no build tool detected in workspace '/home/aditi/Documents/epfl/studies/CS550/project/code'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+2022.11.27 10:38:50 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 10:38:54 INFO  no build target found for /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala. Using presentation compiler with project's scala-library version: 3.2.0[0m
+2022.11.27 10:38:57 INFO  time: code lens generation in 5.3s[0m
+2022.11.27 10:50:37 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 10:51:04 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 10:53:11 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 10:53:56 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 10:54:54 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 10:56:34 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Wip.scala[0m
+2022.11.27 10:57:13 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Wip.scala[0m
+2022.11.27 10:57:56 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 10:58:12 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Point.scala[0m
+Nov 27, 2022 11:00:15 AM scala.meta.internal.pc.CompilerAccess handleError
+SEVERE: 0
+java.lang.IndexOutOfBoundsException: 0
+	at scala.collection.LinearSeqOps.apply(LinearSeq.scala:131)
+	at scala.collection.LinearSeqOps.apply$(LinearSeq.scala:128)
+	at scala.collection.immutable.List.apply(List.scala:79)
+	at dotty.tools.dotc.util.Signatures$.countParams(Signatures.scala:436)
+	at dotty.tools.dotc.util.Signatures$.applyCallInfo(Signatures.scala:156)
+	at dotty.tools.dotc.util.Signatures$.computeSignatureHelp(Signatures.scala:91)
+	at dotty.tools.dotc.util.Signatures$.signatureHelp(Signatures.scala:61)
+	at scala.meta.internal.pc.MetalsSignatures$.signatures(MetalsSignatures.scala:22)
+	at scala.meta.internal.pc.SignatureHelpProvider$.signatureHelp(SignatureHelpProvider.scala:56)
+
+2022.11.27 11:00:18 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Point.scala[0m
+2022.11.27 11:02:40 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Point.scala[0m
+2022.11.27 11:03:34 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Wip.scala[0m
+2022.11.27 11:04:35 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Wip.scala[0m
+2022.11.27 11:05:21 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Wip.scala[0m
+2022.11.27 11:05:59 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:06:07 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:06:26 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:07:01 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:09:49 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:10:01 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:11:57 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:12:01 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:12:16 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:12:50 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:13:02 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:13:13 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:13:29 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:13:52 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:14:24 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Point.scala[0m
+2022.11.27 11:14:27 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Point.scala[0m
+2022.11.27 11:14:30 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Point.scala[0m
+2022.11.27 11:16:04 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:17:24 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:22:39 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:23:48 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:23:52 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+Nov 27, 2022 11:24:56 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 1992
+2022.11.27 11:25:58 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:26:41 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:27:36 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:28:13 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:28:48 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+Nov 27, 2022 11:30:58 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 2445
+Nov 27, 2022 11:32:06 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 2619
+2022.11.27 11:32:32 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:32:51 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:33:11 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:33:28 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:37:01 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:37:13 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:37:31 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:37:51 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:37:59 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:38:20 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:40:21 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:40:29 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:41:18 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:42:05 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:42:29 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:43:05 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:43:13 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:43:24 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:43:29 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+Nov 27, 2022 11:44:38 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 3580
+2022.11.27 11:45:17 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:46:33 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Wip.scala[0m
+Nov 27, 2022 11:47:42 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 3861
+Nov 27, 2022 11:47:44 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 3870
+2022.11.27 11:47:45 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:47:58 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:48:09 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Wip.scala[0m
+2022.11.27 11:48:11 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Wip.scala[0m
+2022.11.27 11:49:58 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:50:08 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 11:50:44 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Wip.scala[0m
+2022.11.27 11:57:08 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Point.scala[0m
+2022.11.27 11:57:28 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Point.scala[0m
+2022.11.27 11:57:37 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Point.scala[0m
+2022.11.27 11:58:24 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Point.scala[0m
+2022.11.27 12:00:17 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Point.scala[0m
+2022.11.27 12:00:55 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Point.scala[0m
+2022.11.27 12:01:07 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Point.scala[0m
+2022.11.27 12:01:16 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Wip.scala[0m
+Nov 27, 2022 12:01:55 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 4896
+Nov 27, 2022 12:02:11 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 4966
+2022.11.27 12:02:31 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Point.scala[0m
+2022.11.27 12:03:07 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Point.scala[0m
+2022.11.27 12:03:24 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Point.scala[0m
+2022.11.27 12:03:29 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Point.scala[0m
+2022.11.27 12:03:51 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Point.scala[0m
+2022.11.27 12:03:56 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Point.scala[0m
+2022.11.27 12:03:58 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Point.scala[0m
+2022.11.27 12:04:58 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Point.scala[0m
+2022.11.27 12:05:02 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Point.scala[0m
+2022.11.27 12:05:06 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Point.scala[0m
+Nov 27, 2022 12:05:38 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 5812
+2022.11.27 12:05:52 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:05:55 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+Nov 27, 2022 12:06:00 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 5911
+Nov 27, 2022 12:06:02 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 5923
+2022.11.27 12:06:07 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:06:14 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:06:23 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:06:38 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:06:51 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+Nov 27, 2022 12:07:13 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 6264
+2022.11.27 12:07:29 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:08:09 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:08:25 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+Nov 27, 2022 12:08:34 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 6434
+Nov 27, 2022 12:08:45 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 6509
+Nov 27, 2022 12:08:45 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 6511
+Nov 27, 2022 12:08:45 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 6528
+2022.11.27 12:08:51 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:08:54 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:08:59 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:09:15 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:09:27 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:09:29 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:09:42 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:09:53 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:11:15 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:11:48 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:11:50 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+Nov 27, 2022 12:11:52 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 7085
+2022.11.27 12:11:52 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:12:18 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+Nov 27, 2022 12:12:23 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 7245
+2022.11.27 12:12:26 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+Nov 27, 2022 12:12:39 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 7333
+Nov 27, 2022 12:12:46 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 7380
+Nov 27, 2022 12:12:50 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 7385
+2022.11.27 12:12:52 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:12:55 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:12:59 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+Nov 27, 2022 12:14:24 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 7852
+2022.11.27 12:14:27 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:14:33 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+Nov 27, 2022 12:14:44 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 7913
+2022.11.27 12:14:59 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:15:11 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:15:26 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+Nov 27, 2022 12:15:32 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 8076
+Nov 27, 2022 12:15:39 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 8113
+Nov 27, 2022 12:15:39 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 8114
+2022.11.27 12:16:16 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+Nov 27, 2022 12:16:27 PM scala.meta.internal.pc.CompilerAccess handleError
+SEVERE: 0
+java.lang.IndexOutOfBoundsException: 0
+	at scala.collection.LinearSeqOps.apply(LinearSeq.scala:131)
+	at scala.collection.LinearSeqOps.apply$(LinearSeq.scala:128)
+	at scala.collection.immutable.List.apply(List.scala:79)
+	at dotty.tools.dotc.util.Signatures$.countParams(Signatures.scala:436)
+	at dotty.tools.dotc.util.Signatures$.applyCallInfo(Signatures.scala:156)
+	at dotty.tools.dotc.util.Signatures$.computeSignatureHelp(Signatures.scala:91)
+	at dotty.tools.dotc.util.Signatures$.signatureHelp(Signatures.scala:61)
+	at scala.meta.internal.pc.MetalsSignatures$.signatures(MetalsSignatures.scala:22)
+	at scala.meta.internal.pc.SignatureHelpProvider$.signatureHelp(SignatureHelpProvider.scala:56)
+
+2022.11.27 12:16:30 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:17:26 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+Nov 27, 2022 12:17:38 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 8434
+2022.11.27 12:17:40 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:18:10 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+Nov 27, 2022 12:19:40 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 8710
+2022.11.27 12:20:06 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:20:06 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:20:21 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:20:31 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:20:53 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+Nov 27, 2022 12:20:59 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 9132
+Nov 27, 2022 12:21:21 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 9230
+2022.11.27 12:21:26 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:21:35 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:21:42 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:21:53 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:22:33 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:22:36 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:22:40 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:22:42 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:22:47 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:22:54 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:22:56 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:23:04 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:23:06 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:23:51 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Helper.scala[0m
+2022.11.27 12:24:23 WARN  no build target for: /home/aditi/Documents/epfl/studies/CS550/project/code/Wip.scala[0m
