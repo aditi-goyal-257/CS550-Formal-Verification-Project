@@ -177,4 +177,43 @@ package helper:
         }
     }.ensuring(_=> l3.forall(predicate))
 
+    def subtractingPreservesPredicate(@induct l: List[Point], a: BigInt, b: BigInt) ={
+        require(l.forall(p => a <= p.y))
+    }.ensuring(l.forall(p => a - b <= p.y - b))
+
+    def squaringPreservesPredicate(@induct l: List[Point], a: BigInt, b: BigInt) ={
+        require(l.forall(p => a <= p.y - b) && a>=0)
+    }.ensuring(l.forall(p => a*a <= (p.y - b)*(p.y - b)))
+
+    def transitiveSquareSortedListLemmaY(@induct l: List[Point], a: BigInt, b: BigInt, c: BigInt) ={
+        require(l.forall(p => a*a <= (p.y -b)*(p.y - b)) && c <= a*a)
+    }.ensuring(l.forall(p => c <= (p.y - b)*(p.y - b)))
+
+    def addingPreservesPredicate(@induct l: List[Point], a: BigInt, b: BigInt, c: BigInt) = {
+        require(l.forall(p => a <= (p.y - b)*(p.y - b)))
+    }.ensuring(l.forall(p => a <= (p.x - c)*(p.x - c) + (p.y - b)*(p.y - b)))
+
+    def distanceFormulaValidForList(@induct l: List[Point], p: Point) ={
+    }.ensuring(l.forall(p1 => p1.distance(p) == (p1.x - p.x)*(p1.x - p.x) + (p1.y - p.y)*(p1.y - p.y)))
+
+    def distanceTransitivityLemma(@induct l: List[Point], p: Point, d: BigInt) = {
+        require(l.forall(p1 => p1.distance(p) == (p1.x - p.x)*(p1.x - p.x) + (p1.y - p.y)*(p1.y - p.y)) && l.forall(p1 => d <= (p1.x - p.x)*(p1.x - p.x) + (p1.y - p.y)*(p1.y - p.y)))
+    }.ensuring(l.forall(p1 => d <= p1.distance(p)))
+    
+    def reducingPreservesPointSparsityLemma(@induct l: List[Point], p: Point, d: BigInt, x: BigInt) = {
+        require(deltaSparsePoint(d, p, l) && x <= d)
+    }.ensuring(deltaSparsePoint(x, p, l))
+
+    def filteringLemma(l: List[Point], predicate: Point => Boolean, p: Point): Unit = {
+        require(l.contains(p) && predicate(p))
+        if l.head != p then {
+            l.tail.contains(p)
+            filteringLemma(l.tail, predicate, p)
+        }
+    }.ensuring(l.filter(predicate).contains(p))
+
+    
+
+
+
     
