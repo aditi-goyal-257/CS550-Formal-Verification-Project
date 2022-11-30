@@ -20,14 +20,16 @@ object ClosestPoint {
                 //assert(min(p1.distance(l.head), pairDistance(x)) == pairDistance(x))
                 assert(deltaSparsePoint(pairDistance(x), l.head, l.tail))
                 val z = findClosestPairInStrip(x)(l.tail)
-                reducingPreservesPointSparsityLemma(l.tail, l.head, pairDistance(x), pairDistance(z))
+                reducingDeltaPreservesPointSparsity(pairDistance(x), pairDistance(z), l.head, l.tail)
+                // reducingPreservesPointSparsityLemma(l.tail, l.head, pairDistance(x), pairDistance(z))
                 assert(deltaSparsePoint(pairDistance(z), l.head, l.tail))
                 z
             }
             else {
                 assert(deltaSparsePoint(p1.distance(l.head), l.head, l.tail))
                 val z = findClosestPairInStrip((l.head, p1))(l.tail)
-                reducingPreservesPointSparsityLemma(l.tail, l.head, p1.distance(l.head), pairDistance(z))
+                reducingDeltaPreservesPointSparsity(l.head.distance(p1), pairDistance(z), l.head, l.tail)
+                // reducingPreservesPointSparsityLemma(l.tail, l.head, p1.distance(l.head), pairDistance(z))
                 assert(deltaSparsePoint(p1.distance(l.head), l.head, l.tail))
                 z
             }
@@ -62,8 +64,8 @@ object ClosestPoint {
            
             distanceTransitivityLemma(l, p, d)
             assert(l.forall(p1 => d <= p1.distance(p)))
-            //addingPredicateToOrPreserves(l, p1 => d <= p1.distance(p), p1 => p == p1)
-            //assert(l.forall(p1 => p == p1 || d <= p1.distance(p)))
+            addingPredicateToOrPreserves(d, p, l)
+            assert(l.forall(p1 => p == p1 || d <= p1.distance(p)))
             assert(deltaSparsePoint(d, p, l))
             l.head
         }
@@ -77,10 +79,13 @@ object ClosestPoint {
     
 
     // l (complete list) is sorted by y coordinates 
-    def combine(lpoint: PairPoint)(rpoint: PairPoint)(div: BigInt)(l: List[Point]): PairPoint =
+    def combine(lpoint: PairPoint)(rpoint: PairPoint)(div: BigInt)(l: List[Point]): PairPoint = {
         require(isSortedY(l))
         val z = compare(lpoint, rpoint)
-        findClosestPairInStrip(z)(filterSorted(l)(p => (p.x - div)*(p.x - div) < pairDistance(z)))
+        val d = pairDistance(z)
+        val l2 = filterSorted(l)(p => p.distance(Point(div, p.y)) < d)
+        findClosestPairInStrip(z)(l2)
+    }.ensuring(res0 => deltaSparse(pairDistance(res0), filterSorted(l)(p => p.distance(Point(div, p.y)) < pairDistance(compare(lpoint, rpoint)))) && pairDistance(res0) <= pairDistance(compare(lpoint, rpoint)))
         
 
     def bruteForce(l: List[Point]): (List[Point], PairPoint) =  
@@ -103,9 +108,12 @@ object ClosestPoint {
             val (lsorted, lpoint) = findClosestPairRec(left_half)
             val (rsorted, rpoint) = findClosestPairRec(right_half)
             val sortedList = mergeY(lsorted, rsorted)
-            (sortedList, combine(lpoint)(rpoint)(right_half.head.x)(sortedList))
+            val res = combine(lpoint)(rpoint)(right_half.head.x)(sortedList)
+            combineLemma(sortedList, left_half, right_half, right_half.head.x, lpoint, rpoint, res)
+            assert(deltaSparse(pairDistance(res), sortedList))
+            (sortedList, res)
         }
-    }.ensuring(res0 => isSortedY(res0._1))
+    }.ensuring(res0 => res0._1.content == l.content && isSortedY(res0._1) && deltaSparse(pairDistance(res0._2), l))
 
     def findClosestPair(l: List[Point]) =
         require(l.size >= 2)
@@ -124,7 +132,7 @@ object ClosestPoint {
     }.ensuring(pr.forall(p =>  d <= p0.distance(p)))
 
 
-    def divideAndConquerLemma(l1: List[Point], p0: Point, p1: Point, d: BigInt, l: BigInt, pl: List[Point], pr: List[Point], l2: List[Point]) ={
+    def divideAndConquerLemma(l1: List[Point], p0: Point, p1: Point, d: BigInt, l: BigInt, pl: List[Point], pr: List[Point], l2: List[Point]): Boolean ={
         require(l1.contains(p0) && l1.contains(p1) && p0!=p1 && p0.distance(p1) < d && pl.forall(p => p.x <= l) && pr.forall(p => l <= p.x) && deltaSparse(d, pl) && deltaSparse(d, pr) && l1.content == pl.content ++ pr.content && l2 == l1.filter(p => p.distance(Point(l, p.y)) < d))
         
         if(pl.contains(p0)){
@@ -184,7 +192,50 @@ object ClosestPoint {
             
         }
 
+        true
     }.ensuring(l2.contains(p0) && l2.contains(p1))
+
+    def combineLemma(ps: List[Point], pl: List[Point], pr: List[Point], l: BigInt, left_pair: PairPoint, right_pair: PairPoint, p: PairPoint) = {
+        require(isSortedY(ps) && ps.content == pl.content ++ pr.content && pl.forall(p => p.x <= l) && deltaSparse(pairDistance(left_pair), pl) && pr.forall(p => l <= p.x) && deltaSparse(pairDistance(right_pair), pr) && p == combine(left_pair)(right_pair)(l)(ps))
+
+        val d = pairDistance(p)
+        if(!deltaSparse(d, ps)){
+            val (p0, p1) = getCounterExampleDeltaSparsity(d, ps)
+            
+            // assert(ps.contains(p0))
+            // assert(ps.contains(p1))
+            // assert(p0 != p1)
+            // assert(p0.distance(p1) < d)
+            // assert(pl.forall(p => p.x <= l))
+            // assert(pr.forall(p => l <= p.x))
+            // assert(d <= pairDistance(left_pair))
+            reducingDeltaPreservesSparsity(pairDistance(left_pair), d, pl)
+            // assert(deltaSparse(d, pl))
+            reducingDeltaPreservesSparsity(pairDistance(right_pair), d, pr)
+            //assert(pairDistance(p) <= )
+
+            val combine_filtered = filterSorted(ps)(p => p.distance(Point(l, p.y)) < pairDistance(compare(left_pair, right_pair)))
+
+            val filtered = filterSorted(ps)(p => p.distance(Point(l, p.y)) < d)
+
+            divideAndConquerLemma(ps, p0, p1, d, l, pl, pr, filtered)
+            assert(filtered.contains(p0))
+            assert(filtered.contains(p1))
+            assert(d <= pairDistance(compare(left_pair, right_pair)))
+            assert(deltaSparse(d, combine_filtered))
+
+            //TODO: rename
+            tp(ps, l, d, pairDistance(compare(left_pair, right_pair)))
+            assert(filtered == filterSorted(combine_filtered)(p => p.distance(Point(l, p.y)) < d))
+            // assert(deltaSparse(d, combine_filtered))
+            filteringPreservesDeltaSparsity(combine_filtered, p => p.distance(Point(l, p.y)) < d, d)
+            assert(deltaSparse(d, filtered))
+            deltaSparsityLemma(d, filtered, p0, p1)
+
+            //get contradiction using divide and conquer lemma
+        }
+
+    }.ensuring(deltaSparse(pairDistance(p), ps))
 
 
  
