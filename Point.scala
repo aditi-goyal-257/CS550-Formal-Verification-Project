@@ -92,22 +92,18 @@ object point2d:
         }
     }.ensuring(deltaSparse(delta2, l))
 
-    // def subsetPreservesDeltaSparsity(delta: BigInt, l1: List[Point], l2: List[Point]): Unit = {
-    //     require(deltaSparse(delta, l1) && l2.content.subsetOf(l1.content))
-    //     // if(!l2.isEmpty){
-    //     //     assert(l1.contains(l2.head))
-    //     //     val index = l1.indexOf(l2.head)
-    //     //     l2.take(index).forall(p => )
 
-            
-    //     // }
+    def subsetPreservesDeltaSparsity(delta: BigInt, l1: List[Point], l2: List[Point]): Unit = {
+        require(deltaSparse(delta, l1) && l2.content.subsetOf(l1.content))
+        if(!deltaSparse(delta, l2)){
+            val (p0, p1) = getCounterExampleDeltaSparsity(delta, l2)
+            assert(l1.contains(p0))
+            assert(l1.contains(p1))
+            deltaSparsityLemma(delta, l1, p0, p1)
+        }
 
-    // }.ensuring(deltaSparse(delta, l2))
+    }.ensuring(deltaSparse(delta, l2))
 
-    // def subsetPreservesDeltaPointSparsity(delta: BigInt, p: Point, l1: List[Point], l2: List[Point]): Unit = {
-    //     require(deltaSparsePoint(delta, p, l1) && l2.content.subsetOf(l1.content))
-
-    // }.ensuring(deltaSparsePoint(delta, p, l2))
 
     
     @extern

@@ -35,7 +35,7 @@ object ClosestPoint {
             }
         }
     }
-    .ensuring(res0 => deltaSparse(pairDistance(res0), l) && pairDistance(res0) <= pairDistance(x))
+    .ensuring(res0 => deltaSparse(pairDistance(res0), l) && pairDistance(res0) <= pairDistance(x) && (res0 == x || (l.contains(res0._1) && l.contains(res0._2))))
     
     // l (strip) is sorted by y coordinates
     def findClosestPointInStrip(p: Point)(d: BigInt)(l: List[Point]): Point =
@@ -74,7 +74,7 @@ object ClosestPoint {
             if p.distance(l.head) <= p.distance(p1) then l.head else p1
         }
     }
-    .ensuring(res0 => deltaSparsePoint(min(p.distance(res0), d), p, l))
+    .ensuring(res0 => deltaSparsePoint(min(p.distance(res0), d), p, l) && l.contains(res0))
 
     
 
@@ -85,7 +85,7 @@ object ClosestPoint {
         val d = pairDistance(z)
         val l2 = filterSorted(l)(p => p.distance(Point(div, p.y)) < d)
         findClosestPairInStrip(z)(l2)
-    }.ensuring(res0 => deltaSparse(pairDistance(res0), filterSorted(l)(p => p.distance(Point(div, p.y)) < pairDistance(compare(lpoint, rpoint)))) && pairDistance(res0) <= pairDistance(compare(lpoint, rpoint)))
+    }.ensuring(res0 => deltaSparse(pairDistance(res0), filterSorted(l)(p => p.distance(Point(div, p.y)) < pairDistance(compare(lpoint, rpoint)))) && pairDistance(res0) <= pairDistance(compare(lpoint, rpoint)) && (lpoint ==res0 || rpoint ==res0 || l.contains(res0._1) && l.contains(res0._2)))
         
 
     def bruteForce(l: List[Point]): (List[Point], PairPoint) =  
@@ -94,7 +94,7 @@ object ClosestPoint {
         val z = mergeSortY(l)
         if l.size == 2 then (z, (l(0), l(1)))
         else (z, compare(compare((l(0), l(1)), (l(0), l(2))), (l(1), l(2)))) 
-    }.ensuring(res0 => isSortedY(res0._1) && deltaSparse(pairDistance(res0._2), l))
+    }.ensuring(res0 => isSortedY(res0._1) && deltaSparse(pairDistance(res0._2), l) && l.contains(res0._2._1) && l.contains(res0._2._2))
 
     // l (complete list) is sorted by x coordinates, return sorted by y coordinates
     def findClosestPairRec(l: List[Point]): (List[Point], PairPoint) ={
@@ -111,13 +111,18 @@ object ClosestPoint {
             val res = combine(lpoint)(rpoint)(right_half.head.x)(sortedList)
             combineLemma(sortedList, left_half, right_half, right_half.head.x, lpoint, rpoint, res)
             assert(deltaSparse(pairDistance(res), sortedList))
+            assert(sortedList.content == l.content)
+            subsetPreservesDeltaSparsity(pairDistance(res), sortedList, l)
             (sortedList, res)
         }
-    }.ensuring(res0 => res0._1.content == l.content && isSortedY(res0._1) && deltaSparse(pairDistance(res0._2), l))
+    }.ensuring(res0 => res0._1.content == l.content && isSortedY(res0._1) && deltaSparse(pairDistance(res0._2), l) && l.contains(res0._2._1) && l.contains(res0._2._2))
 
-    def findClosestPair(l: List[Point]) =
+    def findClosestPair(l: List[Point]): PairPoint = {
         require(l.size >= 2)
-        findClosestPairRec(mergeSortX(l))._1
+        val p = findClosestPairRec(mergeSortX(l))._2
+        subsetPreservesDeltaSparsity(pairDistance(p), mergeSortX(l), l)
+        p
+    }.ensuring(res0 => deltaSparse(pairDistance(res0), l) && l.contains(res0._1) && l.contains(res0._2))
 
 
     /* Main theorems and lemmas */
@@ -236,7 +241,19 @@ object ClosestPoint {
         }
 
     }.ensuring(deltaSparse(pairDistance(p), ps))
+    
 
+    def theorem1(xs: List[Point], ys: List[Point], p: PairPoint) = {
+        require(1 < xs.length && isSortedX(xs) && (ys, p) == findClosestPairRec(xs))
+    }.ensuring(deltaSparse(pairDistance(p), xs))
+
+    def corollary1(xs: List[Point], p: PairPoint) = {
+        require(1 < xs.length && p == findClosestPair(xs))
+    }.ensuring(deltaSparse(pairDistance(p), xs))
+
+    def theorem2(xs: List[Point], p0: Point, p1: Point) = {
+        require(1 < xs.length && (p0, p1) == findClosestPair(xs))
+    }.ensuring(xs.contains(p0) && xs.contains(p1))
 
  
     @extern
