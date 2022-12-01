@@ -88,12 +88,55 @@ object ClosestPoint {
     }.ensuring(res0 => deltaSparse(pairDistance(res0), filterSorted(l)(p => p.distance(Point(div, p.y)) < pairDistance(compare(lpoint, rpoint)))) && pairDistance(res0) <= pairDistance(compare(lpoint, rpoint)) && (lpoint ==res0 || rpoint ==res0 || l.contains(res0._1) && l.contains(res0._2)))
         
 
+    def bruteForceConditionLemma(p1: Point, p2: Point, p3: Point) = {
+        require(p1.distance(p2) <= p1.distance(p3) && p1.distance(p3) <= p2.distance(p3))
+        val a = p1.distance(p2)
+        val b = p1.distance(p3)
+        val c = p2.distance(p3)
+        assert(deltaSparsePoint(a, p1, List(p2, p3)))
+        assert(deltaSparsePoint(b, p2, List(p3)))
+        reducingDeltaPreservesPointSparsity(b, a, p2, List(p3))
+        assert(deltaSparse(a, List(p3)))
+        assert(deltaSparsePoint(a, p3, List()))
+    }.ensuring(_ => deltaSparse(p1.distance(p2), List[Point](p1, p2, p3)))
+
     def bruteForce(l: List[Point]): (List[Point], PairPoint) =  
     {
         require(l.size <= 3 && l.size >= 2) 
         val z = mergeSortY(l)
         if l.size == 2 then (z, (l(0), l(1)))
-        else (z, compare(compare((l(0), l(1)), (l(0), l(2))), (l(1), l(2)))) 
+        else {
+            val a = l(0).distance(l(1))
+            val b = l(0).distance(l(2))
+            val c = l(1).distance(l(2))
+            if(a <= b  && b <= c){
+                bruteForceConditionLemma(l(0), l(1), l(2))
+                (z, (l(0), l(1)))
+            }
+            else if(a <= c && c <= b){
+                bruteForceConditionLemma(l(1), l(0), l(2))
+                (z, (l(1), l(0)))
+            }
+            else if(b <= a && a <= c){
+                bruteForceConditionLemma(l(0), l(2), l(1))
+                (z, (l(0), l(2)))
+            }
+            else if(b <=c && c <= a){
+                bruteForceConditionLemma(l(2), l(0), l(1))
+                (z, (l(2), l(0)))
+            }
+            else if(c <= a && a <= b){
+                bruteForceConditionLemma(l(1), l(2), l(0))
+                (z, (l(1), l(2)))
+            }
+            else{
+                assert(c <= b && b <= a)
+                bruteForceConditionLemma(l(2), l(1), l(0))
+                (z, (l(2), l(1)))
+            }
+
+            // (z, compare(compare((l(0), l(1)), (l(0), l(2))), (l(1), l(2))))
+        }
     }.ensuring(res0 => isSortedY(res0._1) && deltaSparse(pairDistance(res0._2), l) && l.contains(res0._2._1) && l.contains(res0._2._2))
 
     // l (complete list) is sorted by x coordinates, return sorted by y coordinates
@@ -254,6 +297,106 @@ object ClosestPoint {
     def theorem2(xs: List[Point], p0: Point, p1: Point) = {
         require(1 < xs.length && (p0, p1) == findClosestPair(xs))
     }.ensuring(xs.contains(p0) && xs.contains(p1))
+
+    def theorem3(xs: List[Point], p0: Point, p1: Point) = {
+        require(1 < xs.length && isDistinct(xs) && (p0, p1) == findClosestPair(xs))
+        mergeSortXDistinctLemma(xs)
+        val l = mergeSortX(xs)
+        val res = findClosestPairRec(l)
+        findClosestPairRecDistinctLemma(l, res._1, res._2)
+    }.ensuring(p0!=p1)
+
+
+    def closestPointDistinctLemma(p: Point, d: BigInt, l: List[Point], res: Point) ={
+        require(!l.isEmpty && isSortedY(l) && p.y <= l.head.y && findClosestPointInStrip(p)(d)(l) == res && !l.contains(p))
+    }.ensuring(res != p)
+
+    def closestPairDistinctLemma(x: PairPoint, l: List[Point], res: PairPoint): Unit = {
+        require(isDistinct(l) && isSortedY(l) && findClosestPairInStrip(x)(l) == res && x._1 != x._2)
+        if(!l.isEmpty && !l.tail.isEmpty){
+            assert(!l.tail.contains(l.head))
+            val p1 = findClosestPointInStrip(l.head)(pairDistance(x))(l.tail)
+            closestPointDistinctLemma(l.head, pairDistance(x), l.tail, p1)
+            if(pairDistance(x) <= p1.distance(l.head)){
+                val z  = findClosestPairInStrip(x)(l.tail)
+                closestPairDistinctLemma(x, l.tail, z)
+            }
+            else{
+                val z = findClosestPairInStrip((l.head, p1))(l.tail)
+                closestPairDistinctLemma((l.head, p1), l.tail, z)
+            }
+        }
+
+    }.ensuring(res._1 != res._2)
+
+    def combineDistinctLemma(lpoint: PairPoint, rpoint: PairPoint, div: BigInt, l: List[Point], res: PairPoint): Unit = {
+        require(lpoint._1 != lpoint._2 && rpoint._1 != rpoint._2 && isDistinct(l) && isSortedY(l) && res == combine(lpoint)(rpoint)(div)(l))
+        
+        val z = compare(lpoint, rpoint)
+        val d = pairDistance(z)
+        val l2 = filterSorted(l)(p => p.distance(Point(div, p.y)) < d)
+        filteringPreservesDistinct(l, p => p.distance(Point(div, p.y)) < d)
+        assert(isDistinct(l2))
+        closestPairDistinctLemma(z, l2, res)
+    }.ensuring(res._1 != res._2)
+
+    def bruteForceDistinctLemma(l: List[Point], sorted_y: List[Point], p: PairPoint) = {
+        require(l.size >= 2 && l.size <= 3 && isSortedX(l) && isDistinct(l) && (sorted_y, p) == findClosestPairRec(l))
+        val z = mergeSortY(l)
+        mergeSortYDistinctLemma(l)
+        if (l.size == 2) then distinctLemma(l, 0, 1)
+        else {
+            val a = l(0).distance(l(1))
+            val b = l(0).distance(l(2))
+            val c = l(1).distance(l(2))
+
+            if(a <= b  && b <= c){
+                distinctLemma(l, 0, 1)
+            }
+            else if(a <= c && c <= b){
+                distinctLemma(l, 1, 0)
+            }
+            else if(b <= a && a <= c){
+                distinctLemma(l, 0, 2)
+            }
+            else if(b <=c && c <= a){
+                distinctLemma(l, 2, 0)
+            }
+            else if(c <= a && a <= b){
+                distinctLemma(l, 1, 2)
+            }
+            else{
+                assert(c <= b && b <= a)
+                distinctLemma(l, 2, 1)
+            }
+        }
+    }.ensuring(isDistinct(sorted_y) && p._1 != p._2)
+
+
+    def findClosestPairRecDistinctLemma(l: List[Point], sorted_y: List[Point], p: PairPoint): Unit = {
+        require(l.size >= 2 && isSortedX(l) && isDistinct(l) && (sorted_y, p) == findClosestPairRec(l))
+        decreases(l.size)
+        if(l.size > 3){
+            val (left_half, right_half) = split(l, l.size/2)
+            splitDistinctLemma(l, l.size/2)
+            val (lsorted, lpoint) = findClosestPairRec(left_half)
+            val (rsorted, rpoint) = findClosestPairRec(right_half)
+            findClosestPairRecDistinctLemma(left_half, lsorted, lpoint)
+            findClosestPairRecDistinctLemma(right_half, rsorted, rpoint)
+            val sortedList = mergeY(lsorted, rsorted)
+            mergeYDistinctLemma(lsorted, rsorted)
+            val res = combine(lpoint)(rpoint)(right_half.head.x)(sortedList)
+            combineDistinctLemma(lpoint, rpoint, right_half.head.x, sortedList, res)
+        }
+        else{
+            bruteForceDistinctLemma(l, sorted_y, p)
+        }
+        
+    }.ensuring(isDistinct(sorted_y) && p._1 != p._2)
+
+    // def theorem3(xs: List[Point], p0: Point, p1: Point) = {
+    //     require(1 < xs.length && isDistinct(xs) && (p0, p1) == findClosestPair(xs))
+    // }.ensuring(p0 != p1)
 
  
     @extern

@@ -70,9 +70,7 @@ object point2d:
         else l.head
     }.ensuring(res0 => res0.distance(p) < delta && l.contains(res0) && res0 != p)
 
-    def isDistinct(l: List[Point]): Boolean ={
-        if l.isEmpty then true else !l.tail.contains(l.head) && isDistinct(l.tail)
-    }
+    
 
     def getCounterExampleDeltaSparsity(delta: BigInt, l: List[Point]): PairPoint = {
         require(!deltaSparse(delta, l))
@@ -103,6 +101,39 @@ object point2d:
         }
 
     }.ensuring(deltaSparse(delta, l2))
+
+    def isDistinct(l: List[Point]): Boolean ={
+        if l.isEmpty then true else !l.tail.contains(l.head) && isDistinct(l.tail)
+    }
+
+    def elementInsideListLemma(l: List[Point], index: BigInt): Unit = {
+        require(index > 0 && index < l.size)
+        if(index != 1){
+            elementInsideListLemma(l.tail, index-1)
+        }
+    }.ensuring(l.tail.contains(l(index)))
+
+    def distinctLemma(l: List[Point], index1: BigInt, index2: BigInt): Unit = {
+        require(index1 >= 0 && index1 < l.size && index2 >= 0  && index2 < l.size && index1 != index2 && isDistinct(l))
+        if(!l.isEmpty){
+            if(index1 == 0){
+                assert(index2 > 0 && index2 < l.size)
+                elementInsideListLemma(l, index2)
+                assert(l.tail.contains(l(index2)))
+                assert(!l.tail.contains(l(index1)))
+                assert(l(index1)!=l(index2))
+            }
+            else if(index2 == 0){
+                elementInsideListLemma(l, index1)
+                assert(l.tail.contains(l(index1)))
+                assert(!l.tail.contains(l(index2)))
+                assert(l(index1)!=l(index2))
+            }
+            else{
+                distinctLemma(l.tail, index1-1, index2-1)
+            }
+        }
+    }.ensuring(l(index1) != l(index2))
 
 
     

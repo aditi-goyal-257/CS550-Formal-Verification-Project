@@ -28,6 +28,20 @@ package helper:
         }
     }.ensuring(res0 => l.size == res0.size && isSortedX(res0) && l.content == res0.content)
 
+    def mergeSortXDistinctLemma(l: List[Point]) : Unit = {
+        require(isDistinct(l))
+        if(!l.isEmpty && !l.tail.isEmpty){
+            val(lhalf, rhalf) = l.splitAtIndex(l.size/2)
+            splitDistinctLemma(l, l.size/2)
+            mergeSortXDistinctLemma(lhalf)
+            mergeSortXDistinctLemma(rhalf)
+            val sorted_left = mergeSortX(lhalf)
+            val sorted_right = mergeSortX(rhalf)
+            mergeXDistinctLemma(sorted_left, sorted_right)
+        }
+
+    }.ensuring(_ => isDistinct(mergeSortX(l)))
+
 
     /* Merge 2 lists sorted by X-coordinates to obtain a sorted list */
     def mergeX(l1: List[Point], l2: List[Point]): List[Point]={
@@ -48,6 +62,20 @@ package helper:
 
         }
     }.ensuring(res0 => l1.size + l2.size == res0.size && isSortedX(res0) && res0.content == l1.content ++ l2.content)
+
+    def mergeXDistinctLemma(l1: List[Point], l2: List[Point]): Unit = {
+        require(isSortedX(l1) && isSortedX(l2) && isDistinct(l1) && isDistinct(l2) && l1.&(l2) == List[Point]()) 
+        if(!l1.isEmpty && !l2.isEmpty){
+            if(l1.head.x <= l2.head.x){
+                assert(!(l1.tail ++ l2).contains(l1.head))
+                mergeXDistinctLemma(l1.tail, l2)
+            }
+            else{
+                assert(!(l1 ++ l2.tail).contains(l2.head))
+                mergeXDistinctLemma(l1, l2.tail)
+            }
+        }
+    }.ensuring(_ => isDistinct(mergeX(l1, l2)))
 
     def listContainsElement(l: List[Point], a: BigInt): Unit= {
         require(a >= 0 && a < l.size)
@@ -109,6 +137,16 @@ package helper:
     (res0.isEmpty || index < 0 || index >= l.size || {val a = l(index).x
         res0.forall(p => p.x <= a)}))
 
+
+    def takeDistinctLemma(l: List[Point], index: BigInt): Unit = {
+        require(isDistinct(l))
+        if(index >= 0 && !l.isEmpty){
+            val z = l.tail.take(index-1)
+            takeDistinctLemma(l.tail, index-1)
+            assert(!z.contains(l.head))
+        }
+    }.ensuring(_ => isDistinct(l.take(index)))
+
     /* Function that implements `list.drop` and proves that dropping first
     few elements of list sorted by X-coordinates results in a sorted list */
     def drop(@induct l: List[Point], index: BigInt): List[Point] = {
@@ -119,6 +157,14 @@ package helper:
             drop(l.tail, index-1)
         }
     }.ensuring(res0 => isSortedX(res0) && res0 == l.drop(index) && (index < 0 || index >=l.size || res0.isEmpty || res0.head == l(index)))
+
+    def dropDistinctLemma(l: List[Point], index: BigInt) : Unit = {
+        require(isDistinct(l))
+        if(!l.isEmpty && index > 0){
+            dropDistinctLemma(l.tail, index-1)
+        }
+
+    }.ensuring(_ => isDistinct(l.drop(index)))
 
     /* Function that implements `list.splitAtIndex` and proves that splitting
     a list sorted by X-coordinates results into two sorted lists */
@@ -139,6 +185,52 @@ package helper:
         }
     }.ensuring(res0 => isSortedX(res0._1) && isSortedX(res0._2) && res0 == l.splitAtIndex(index) && (index < 0 || index - 1 >= l.size || res0._2.isEmpty || res0._1.forall(p => p.x <= res0._2.head.x)))
 
+
+    def indexOfElementPresentLemma(l: List[Point], p: Point): Unit = {
+        require(l.contains(p))
+        if(l.head != p){
+            indexOfElementPresentLemma(l.tail, p)
+        }
+    }.ensuring(_ => l.indexOf(p) < l.size && l(l.indexOf(p)) == p)
+
+    def takeSameProperty(l: List[Point], index: BigInt, index2: BigInt): Unit = {
+        require(index >= 0 && index2 >= 0 &&index < l.size && index2 < index)
+        if(index2 > 0){
+            takeSameProperty(l.tail, index-1, index2 - 1)
+        }
+    }.ensuring(_ => l(index2) == l.take(index)(index2))
+
+    def dropSameProperty(l: List[Point], index: BigInt, index2: BigInt): Unit = {
+        require(index2 >= 0 && index >= 0 && index2 + index < l.size && index + index2 >= 0) 
+        if(index > 0){
+            dropSameProperty(l.tail, index-1, index2)
+        }
+        
+    }.ensuring(_ => l(index2 + index) == l.drop(index)(index2))
+
+    def splitDistinctLemma(l: List[Point], index: BigInt): Unit = {
+        require(isDistinct(l) && index >= 0)
+        takeDistinctLemma(l, index)
+        dropDistinctLemma(l, index)
+        val a = l.splitAtIndex(index)
+        val intersection = a._1.&(a._2)
+        if(!intersection.isEmpty){
+            val common_elem = intersection.head
+            val index1 = a._1.indexOf(common_elem)
+            // assert(a._1.contains(common_elem))
+            val index2 = a._2.indexOf(common_elem)
+            indexOfElementPresentLemma(a._1, common_elem)
+            indexOfElementPresentLemma(a._2, common_elem)
+            distinctLemma(l, index1, index2+a._1.size)
+            dropSameProperty(l, index, index2)
+            takeSameProperty(l, index, index1)
+        }
+    }.ensuring(_ => {
+        val a = l.splitAtIndex(index)
+        isDistinct(a._1) && isDistinct(a._2)&&
+        (a._1.&(a._2)).isEmpty
+    })
+
     /************************************** Functions related to y-coordinates **************************************/
 
     def isSortedY(l: List[Point]): Boolean =
@@ -152,6 +244,20 @@ package helper:
             mergeY(mergeSortY(lhalf), mergeSortY(rhalf))
         }
     }.ensuring(res0 => l.size == res0.size && isSortedY(res0) && l.content == res0.content)
+
+    def mergeSortYDistinctLemma(l: List[Point]) : Unit = {
+        require(isDistinct(l))
+        if(!l.isEmpty && !l.tail.isEmpty){
+            val(lhalf, rhalf) = l.splitAtIndex(l.size/2)
+            splitDistinctLemma(l, l.size/2)
+            mergeSortYDistinctLemma(lhalf)
+            mergeSortYDistinctLemma(rhalf)
+            val sorted_left = mergeSortY(lhalf)
+            val sorted_right = mergeSortY(rhalf)
+            mergeYDistinctLemma(sorted_left, sorted_right)
+        }
+
+    }.ensuring(_ => isDistinct(mergeSortY(l)))
 
     def mergeY(l1: List[Point], l2: List[Point]): List[Point]={
         require(isSortedY(l1) && isSortedY(l2))
@@ -170,6 +276,20 @@ package helper:
             l2.head::z
         }
     }.ensuring(res0 => l1.size + l2.size == res0.size && isSortedY(res0) && res0.content == l1.content ++ l2.content)
+
+    def mergeYDistinctLemma(l1: List[Point], l2: List[Point]): Unit = {
+        require(isSortedY(l1) && isSortedY(l2) && isDistinct(l1) && isDistinct(l2) && l1.&(l2) == List[Point]()) 
+        if(!l1.isEmpty && !l2.isEmpty){
+            if(l1.head.y <= l2.head.y){
+                assert(!(l1.tail ++ l2).contains(l1.head))
+                mergeYDistinctLemma(l1.tail, l2)
+            }
+            else{
+                assert(!(l1 ++ l2.tail).contains(l2.head))
+                mergeYDistinctLemma(l1, l2.tail)
+            }
+        }
+    }.ensuring(_ => isDistinct(mergeY(l1, l2)))
 
 
     /* Function that implements `list.filter` and proves that filtering
@@ -267,6 +387,19 @@ package helper:
         }
     }.ensuring(l.filter(predicate).contains(p))
 
+    def filteringPreservesDistinct(l: List[Point], predicate: Point => Boolean): Unit = {
+        require(isDistinct(l))
+        if(!l.isEmpty){
+            if(predicate(l.head)){
+                assert(!l.tail.contains(l.head))
+                assert(!l.tail.filter(predicate).contains(l.head))
+                filteringPreservesDistinct(l.tail, predicate)
+            }
+            else{
+                filteringPreservesDistinct(l.tail, predicate)
+            }
+        }
+    }.ensuring(_ => isDistinct(l.filter(predicate)))
 
 
     def filteringPreservesDeltaPointSparsity(@induct l: List[Point], predicate: Point => Boolean, p: Point, delta: BigInt): Unit = {
@@ -291,6 +424,21 @@ package helper:
         require(isSortedY(ps) && d1 <= d2)
     }.ensuring(filterSorted(ps)(p => p.distance(Point(l, p.y)) < d1 ) == filterSorted(filterSorted(ps)(p => p.distance(Point(l, p.y)) < d2))(p => p.distance(Point(l, p.y)) < d1))
 
+
+    // def tp2(l1: List[Point], l2: List[Point]) = {
+    //     require(isDistinct(l1) && l1.content == l2.content && l2.size == l1.size)
+    //     if(!(isDistinct(l2))){
+    //         val indices = getCounterExampleDistinct(l2)
+    //         assert(l1.contains(l2(indices._1)))
+    //         val index_in_l1 = indexOf(l2(indices._1))
+    //         assert(!l1.take(index_in_l1).contains(l1(index_in_l1)))
+    //         assert(!l1.drop(index_in_l1+1).contains(l(index_in_l1+1)))
+    //     }
+    // }.ensuring(isDistinct(l2))
+
+    // def mergeSortPreservesDistinct(@induct l: List[Point]) ={
+    //     require(isDistinct(l))
+    // }.ensuring(isDistinct(mergeSortX(l)))
     
 
 
