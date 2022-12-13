@@ -1,8 +1,9 @@
+/* Point class and basic functions related to points */
+
 import stainless.collection._
 import stainless.lang._
 import stainless.annotation._
 
-/* Contains general geometric functionalities */
 object point2d:
     /* Point class */
     class Point (val x: BigInt, val y: BigInt){

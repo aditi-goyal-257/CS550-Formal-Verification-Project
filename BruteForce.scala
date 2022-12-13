@@ -1,3 +1,6 @@
+/* This file contains functions and lemmas for the brute force case,
+where the number of points in the list is 2 or 3 */
+
 import stainless.collection._
 import stainless.lang._
 import stainless.annotation._
@@ -9,8 +12,6 @@ import sparsity.*
 import sparsityLemmas.*
 import ClosestPoint.findClosestPairRec
 
-/* This file contains functions and lemmas for the brute force case,
-where the number of points in the list is 2 or 3 */
 
 object bruteForce:
      

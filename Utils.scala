@@ -1,3 +1,6 @@
+/* This file contains generic functionality related to sorting and
+other utility functions like splitting list*/
+
 import stainless.collection._
 import stainless.lang._
 import stainless.annotation._
@@ -6,7 +9,6 @@ import point2d._
 import sparsity._
 import sparsityLemmas._
 
-/* Contains generic functionality related to sorting and other utility functions */
 
 package helper:
 
