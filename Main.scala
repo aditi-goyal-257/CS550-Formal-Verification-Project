@@ -77,7 +77,8 @@ object ClosestPoint {
         decreases(l.size)
         if l.size <= 3 then bruteForce(l)
         else{
-            val (left_half, right_half) = split(l, l.size/2)
+            val (left_half, right_half) = l.splitAtIndex(l.size/2)
+            split(l, l.size/2)
             val (lsorted, lpoint) = findClosestPairRec(left_half)
             val (rsorted, rpoint) = findClosestPairRec(right_half)
             val sortedList = mergeY(lsorted, rsorted)

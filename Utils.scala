@@ -175,11 +175,11 @@ package helper:
 
     /* Function that implements `list.take` and proves that taking first
     few elements of list sorted by X-coordinates results in a sorted list */
-    def take(l: List[Point], index: BigInt): List[Point] = {
+    def take(l: List[Point], index: BigInt): Unit = {
         require(isSortedX(l))
-        if l.isEmpty || index <= 0 then List[Point]()
-        else{
-            val z = take(l.tail, index-1)
+        if(!l.isEmpty && index > 0){
+            val z = l.tail.take(index-1)
+            take(l.tail, index - 1)
             assert(index -1 < 0 || index - 1 >= l.tail.size || {val a = l.tail(index-1).x
                 z.forall(p => p.x <= a)})
             if !z.isEmpty then 
@@ -196,43 +196,36 @@ package helper:
                 assert(l.head.x <= b)            
                 assert((l.head::z).forall(p=> p.x <= b))
             }
-            l.head::z
         }        
-    }.ensuring(res0 => isSortedX(res0) && (l.isEmpty || res0.isEmpty || l.head == res0.head) && res0 == l.take(index) && 
-    (res0.isEmpty || index < 0 || index >= l.size || {val a = l(index).x
-        res0.forall(p => p.x <= a)}))
+    }.ensuring(_ => isSortedX(l.take(index)) && (l.isEmpty || l.take(index).isEmpty || l.head == l.take(index).head) && 
+    (l.take(index).isEmpty || index < 0 || index >= l.size || {val a = l(index).x
+        l.take(index).forall(p => p.x <= a)}))
 
 
     
 
     /* Function that implements `list.drop` and proves that dropping first
     few elements of list sorted by X-coordinates results in a sorted list */
-    def drop(@induct l: List[Point], index: BigInt): List[Point] = {
+    def drop(l: List[Point], index: BigInt): Unit = {
         require(isSortedX(l))
-        if l.isEmpty then List[Point]()
-        else if index <= 0 then l
-        else{
+        if(!l.isEmpty && index > 0){
             drop(l.tail, index-1)
         }
-    }.ensuring(res0 => isSortedX(res0) && res0 == l.drop(index) && (index < 0 || index >=l.size || res0.isEmpty || res0.head == l(index)))
+    }.ensuring(_ => isSortedX(l.drop(index)) && (index < 0 || index >=l.size || l.drop(index).isEmpty || l.drop(index).head == l(index)))
 
     
 
     /* Function that implements `list.splitAtIndex` and proves that splitting
     a list sorted by X-coordinates results into two sorted lists */
-    def split(l: List[Point], index: BigInt): (List[Point], List[Point]) = {
+    def split(l: List[Point], index: BigInt): Unit = {
         require(isSortedX(l))
-        if l.isEmpty then (l, l)
-        else {
-            val left = take(l, index)
-            val right = drop(l, index)
-            if(!right.isEmpty){
-                assert(index <0 || index >= l.size || l(index).x == right.head.x)
-                if(index >= 0 && index < l.size){
-                assert({val a = l(index).x
-                    left.forall(p => p.x <= a)})
-                }
-            }
-            (left, right)
+        // if l.isEmpty then (l, l)
+        if(!l.isEmpty) {
+            val left = l.take(index)
+            val right = l.drop(index)
+            take(l, index)
+            drop(l, index)
         }
-    }.ensuring(res0 => isSortedX(res0._1) && isSortedX(res0._2) && res0 == l.splitAtIndex(index) && (index < 0 || index - 1 >= l.size || res0._2.isEmpty || res0._1.forall(p => p.x <= res0._2.head.x))) 
+    }.ensuring(_ => isSortedX(l.take(index)) && isSortedX(l.drop(index)) && (index < 0 || index - 1 >= l.size || l.drop(index).isEmpty ||
+    {val z = l.drop(index).head.x
+        l.take(index).forall(p => p.x <= z)})) 

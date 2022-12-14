@@ -123,7 +123,8 @@ object lemmas:
         require(l.size >= 2 && isSortedX(l) && isDistinct(l) && (sorted_y, p) == findClosestPairRec(l))
         decreases(l.size)
         if(l.size > 3){
-            val (left_half, right_half) = split(l, l.size/2)
+            val (left_half, right_half) = l.splitAtIndex(l.size/2)
+            // split(l, l.size/2)
             splitDistinctLemma(l, l.size/2)
             val (lsorted, lpoint) = findClosestPairRec(left_half)
             val (rsorted, rpoint) = findClosestPairRec(right_half)
