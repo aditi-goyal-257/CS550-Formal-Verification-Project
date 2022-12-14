@@ -24,15 +24,7 @@ object ClosestPoint {
         require(!l.isEmpty && isSortedY(l) && p.y <= l.head.y)
         if l.tail.isEmpty then l.head
         else if d <= (l.head.y - p.y)*(l.head.y - p.y) then {
-
-            tranisitiveSortedListLemmaY(l, p.y, l.head.y)
-            subtractingPreservesPredicate(l, l.head.y, p.y)
-            squaringPreservesPredicate(l, l.head.y - p.y, p.y)
-            transitiveSquareSortedListLemmaY(l, l.head.y - p.y, p.y, d)
-            addingPreservesPredicate(l, d, p.y, p.x)
-            distanceFormulaValidForList(l, p)
-            distanceTransitivityLemma(l, p, d)
-            addingPredicateToOrPreserves(d, p, l)
+            transitiveDistanceProperty(p, d, l.head, l.tail)
             l.head
         }
         else{
