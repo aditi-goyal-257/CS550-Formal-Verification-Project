@@ -65,9 +65,10 @@ object ClosestPoint {
         require(isSortedY(l))
         val z = compare(lpoint, rpoint)
         val d = pairDistance(z)
-        val l2 = filterSorted(l)(p => p.distance(Point(div, p.y)) < d)
+        val l2 = l.filter(p => p.distance(Point(div, p.y)) < d)
+        filterSorted(l, p => p.distance(Point(div, p.y)) < d)
         findClosestPairInStrip(z)(l2)
-    }.ensuring(res0 => deltaSparse(pairDistance(res0), filterSorted(l)(p => p.distance(Point(div, p.y)) < pairDistance(compare(lpoint, rpoint)))) && pairDistance(res0) <= pairDistance(compare(lpoint, rpoint)) && (lpoint ==res0 || rpoint ==res0 || l.contains(res0._1) && l.contains(res0._2)))
+    }.ensuring(res0 => deltaSparse(pairDistance(res0), l.filter(p => p.distance(Point(div, p.y)) < pairDistance(compare(lpoint, rpoint)))) && pairDistance(res0) <= pairDistance(compare(lpoint, rpoint)) && (lpoint ==res0 || rpoint ==res0 || l.contains(res0._1) && l.contains(res0._2)))
         
     /* Find closest pair of points in list l sorted by x-coordinates.
     Also returns l sorted by y-coordinates */

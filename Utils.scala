@@ -153,28 +153,22 @@ package helper:
 
      /* Function that implements `list.filter` and proves that filtering
     few elements of list sorted by Y-coordinates results in a sorted list */
-    def filterSorted(l: List[Point])(p: Point => Boolean): List[Point] = {
+    def filterSorted(l: List[Point], p: Point => Boolean): Unit = {
         require(isSortedY(l))
-        if l.isEmpty then l
-        else{
+        if(!l.isEmpty){
             assert(l.forall(p => l.head.y <= p.y))
-            val tail_sorted = filterSorted(l.tail)(p)
+            val tail_sorted = l.tail.filter(p)
+            filterSorted(l.tail, p)
             assert(l.forall(p => l.head.y <= p.y))
             wholeImpliesSubsetLemma(l, List(), tail_sorted, (p => l.head.y <= p.y))
             assert(tail_sorted.forall(p => l.head.y <= p.y))
-            // filterSorted(l.tail)(p)
-            if p(l.head) then l.head::tail_sorted else tail_sorted
-        }
-
-    // }.ensuring(_ => isSortedY(l.filter(p)))
-        
-    }.ensuring(res0 => isSortedY(res0) && res0.content.subsetOf(l.content) && res0 == l.filter(p))
+        }   
+    }.ensuring(_ => isSortedY(l.filter(p)) && l.filter(p).content.subsetOf(l.content))
 
 
     /********************************* Take, drop and split for sorted lists ************************/
 
-    /* Function that implements `list.take` and proves that taking first
-    few elements of list sorted by X-coordinates results in a sorted list */
+    /* Proves that list.take preserves sorted property */
     def take(l: List[Point], index: BigInt): Unit = {
         require(isSortedX(l))
         if(!l.isEmpty && index > 0){
@@ -204,8 +198,7 @@ package helper:
 
     
 
-    /* Function that implements `list.drop` and proves that dropping first
-    few elements of list sorted by X-coordinates results in a sorted list */
+    /* Proves that list.drop preserves sorted property */
     def drop(l: List[Point], index: BigInt): Unit = {
         require(isSortedX(l))
         if(!l.isEmpty && index > 0){
@@ -215,11 +208,9 @@ package helper:
 
     
 
-    /* Function that implements `list.splitAtIndex` and proves that splitting
-    a list sorted by X-coordinates results into two sorted lists */
+    /* Proves that list.spliyAtIndex preserves sorted property */
     def split(l: List[Point], index: BigInt): Unit = {
         require(isSortedX(l))
-        // if l.isEmpty then (l, l)
         if(!l.isEmpty) {
             val left = l.take(index)
             val right = l.drop(index)

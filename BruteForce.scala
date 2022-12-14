@@ -22,8 +22,10 @@ object bruteForce:
     {
         require(l.size <= 3 && l.size >= 2) 
         val z = mergeSortY(l)
+        elementInsideListLemma(l, 1)
         if l.size == 2 then (z, (l(0), l(1)))
         else {
+            elementInsideListLemma(l, 2)
             val a = l(0).distance(l(1))
             val b = l(0).distance(l(2))
             val c = l(1).distance(l(2))
@@ -99,7 +101,21 @@ object bruteForce:
         val a = p1.distance(p2)
         val b = p1.distance(p3)
         val c = p2.distance(p3)
+        assert(a == p1.distance(p2))
+        distanceCommutavityLemma(p1, p2)
+        assert(a <= p2.distance(p1))
+
+        assert(p1.distance(p2) <= p1.distance(p3))
+        assert(a <= p1.distance(p3))
+        distanceCommutavityLemma(p1, p3)
+        assert(a <= p3.distance(p1))
+
+        assert(deltaSparsePoint(a, p1, List(p3)))
         assert(deltaSparsePoint(a, p1, List(p2, p3)))
+
+        assert(b <= p2.distance(p3))
+        distanceCommutavityLemma(p2, p3)
+
         assert(deltaSparsePoint(b, p2, List(p3)))
         reducingDeltaPreservesPointSparsity(b, a, p2, List(p3))
         assert(deltaSparse(a, List(p3)))

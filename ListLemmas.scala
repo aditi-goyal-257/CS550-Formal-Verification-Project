@@ -214,7 +214,7 @@ object listLemmas:
     based on any predicate */
     def filteringPreservesDeltaPointSparsity(@induct l: List[Point], predicate: Point => Boolean, p: Point, delta: BigInt): Unit = {
         require(isSortedY(l) && deltaSparsePoint(delta, p, l))
-    }.ensuring(deltaSparsePoint(delta, p, filterSorted(l)(predicate)))
+    }.ensuring(deltaSparsePoint(delta, p, l.filter(predicate)))
 
     /* A delta sparse  list is still delta sparse after filtering based on 
     any predicate */
@@ -229,11 +229,11 @@ object listLemmas:
                 filteringPreservesDeltaSparsity(l.tail, predicate, delta)
             }
         }
-    }.ensuring(deltaSparse(delta, filterSorted(l)(predicate)))
+    }.ensuring(deltaSparse(delta, l.filter(predicate)))
 
     def filteringTwiceEquivalentLemma(@induct ps: List[Point], l: BigInt, d1: BigInt, d2: BigInt): Unit = {
         require(isSortedY(ps) && d1 <= d2)
-    }.ensuring(filterSorted(ps)(p => p.distance(Point(l, p.y)) < d1 ) == filterSorted(filterSorted(ps)(p => p.distance(Point(l, p.y)) < d2))(p => p.distance(Point(l, p.y)) < d1))
+    }.ensuring(ps.filter(p => p.distance(Point(l, p.y)) < d1 ) == ps.filter(p => p.distance(Point(l, p.y)) < d2).filter(p => p.distance(Point(l, p.y)) < d1))
 
 
    /********************** Lemma related to sorted lists **************/
