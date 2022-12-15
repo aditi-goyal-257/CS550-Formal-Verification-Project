@@ -13,6 +13,8 @@ object point2d:
             (x - that.x)*(x - that.x) + (y - that.y)*(y - that.y)
         }
 
+        override def toString(): String = s"Point(${x},${y})"
+
     }
     def distanceCommutavityLemma(p1: Point, p2: Point) = {        
     }.ensuring(_ => p1.distance(p2) == p2.distance(p1))
