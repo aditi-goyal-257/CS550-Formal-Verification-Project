@@ -196,8 +196,6 @@ package helper:
         l.take(index).forall(p => p.x <= a)}))
 
 
-    
-
     /* Proves that list.drop preserves sorted property */
     def drop(l: List[Point], index: BigInt): Unit = {
         require(isSortedX(l))
