@@ -3,7 +3,7 @@ other utility functions like splitting list*/
 
 import stainless.collection._
 import stainless.lang._
-import stainless.annotation._
+import stainless.annotation.{ghost => ghostAnnot, _}
 import stainless.equations._
 import point2d._
 import sparsity._
@@ -28,10 +28,11 @@ package helper:
             listContainsElement(l.tail, a-1)
         }
     }.ensuring(_ => l.contains(l(a)))
-    
+
 
     /* Lemma to prove that if some predicate is true for every element
        of a list, it is also true for any individual element */
+    @ghostAnnot
     def instantiateForAll[T](l: List[T], predicate: T => Boolean, p: T): Unit ={
         require(l.forall(predicate) && l.contains(p))
         assert(!l.isEmpty)
@@ -46,6 +47,7 @@ package helper:
     }.ensuring(_ => predicate(p))
 
     /* Lemma to prove if a predicate is valid for two lists it is also true for a list which is made up of the other two lists */
+    @ghostAnnot
     def wholeImpliesSubsetLemma[T](l1: List[T], l2: List[T], l3: List[T], predicate: T => Boolean): Unit = {
         require(l1.forall(predicate) && l2.forall(predicate) && l3.content.subsetOf(l1.content ++ l2.content))
         if !l3.isEmpty then {
@@ -53,7 +55,7 @@ package helper:
                 assert(l1.contains(l3.head))
                 instantiateForAll(l1, predicate, l3.head)
                 assert(predicate(l3.head))
-                wholeImpliesSubsetLemma(l1, l2, l3.tail, predicate)} 
+                wholeImpliesSubsetLemma(l1, l2, l3.tail, predicate)}
             else {
                 assert(l2.content.contains(l3.head))
                 instantiateForAll(l2, predicate, l3.head)
@@ -72,16 +74,18 @@ package helper:
     }
 
      /* Lemma to imply transitivity of <= operation on elements of a list (x-coordinates) */
+    @ghostAnnot
     def tranisitiveSortedListLemmaX(@induct l:List[Point], a: BigInt, b: BigInt) = {
         require(isSortedX(l) && a <= b && l.forall(p => b <= p.x))
     }.ensuring(_ => l.forall(p => a <= p.x))
 
+    @ghostAnnot
     def tranisitiveSortedListIncreasingLemmaX(@induct l:List[Point], a: BigInt, b: BigInt) = {
         require(isSortedX(l) && a <= b && l.forall(p => p.x <= a))
     }.ensuring(_ => l.forall(p => p.x <= b))
 
 
-    /* Merge sort function to sort a list of points according to their x-coordinates */    
+    /* Merge sort function to sort a list of points according to their x-coordinates */
     def mergeSortX(l: List[Point]): List[Point] = {
         if l.isEmpty || l.tail.isEmpty then l
         else{
@@ -96,15 +100,15 @@ package helper:
         if l1.isEmpty then l2
         else if l2.isEmpty then l1
         else if l1.head.x <= l2.head.x then {
-            tranisitiveSortedListLemmaX(l2, l1.head.x, l2.head.x)
+            ghost { tranisitiveSortedListLemmaX(l2, l1.head.x, l2.head.x) }
             val z = mergeX(l1.tail, l2)
-            wholeImpliesSubsetLemma(l1, l2, z, p => l1.head.x <= p.x)
+            ghost { wholeImpliesSubsetLemma(l1, l2, z, p => l1.head.x <= p.x) }
             l1.head::z
         }
         else {
-            tranisitiveSortedListLemmaX(l1, l2.head.x, l1.head.x)
+            ghost { tranisitiveSortedListLemmaX(l1, l2.head.x, l1.head.x) }
             val z = mergeX(l1, l2.tail)
-            wholeImpliesSubsetLemma(l1, l2, z, p => l2.head.x <= p.x)
+            ghost { wholeImpliesSubsetLemma(l1, l2, z, p => l2.head.x <= p.x) }
             l2.head::z
 
         }
@@ -119,11 +123,12 @@ package helper:
         else l.forall(p => l.head.y <= p.y) && isSortedY(l.tail)
 
     /* Lemma to imply transitivity of <= operation on elements of a list (y-coordinates) */
+    @ghostAnnot
     def tranisitiveSortedListLemmaY(@induct l:List[Point], a: BigInt, b: BigInt) = {
         require(isSortedY(l) && a <= b && l.forall(p => b <= p.y))
     }.ensuring(_ => l.size == 0 || l.forall(p => a <= p.y))
-    
-    /* Merge sort function to sort a list of points according to their y-coordinates */    
+
+    /* Merge sort function to sort a list of points according to their y-coordinates */
     def mergeSortY(l: List[Point]): List[Point] = {
         if l.isEmpty || l.tail.isEmpty then l
         else{
@@ -131,28 +136,29 @@ package helper:
             mergeY(mergeSortY(lhalf), mergeSortY(rhalf))
         }
     }.ensuring(res0 => l.size == res0.size && isSortedY(res0) && l.content == res0.content)
-    
+
     /* Merge 2 lists sorted by X-coordinates to obtain a sorted list */
     def mergeY(l1: List[Point], l2: List[Point]): List[Point]={
         require(isSortedY(l1) && isSortedY(l2))
         if l1.isEmpty then l2
         else if l2.isEmpty then l1
         else if l1.head.y <= l2.head.y then {
-            tranisitiveSortedListLemmaY(l2, l1.head.y, l2.head.y)
+            ghost { tranisitiveSortedListLemmaY(l2, l1.head.y, l2.head.y) }
             val z = mergeY(l1.tail, l2)
-            wholeImpliesSubsetLemma(l1, l2, z, p => l1.head.y <= p.y)
+            ghost { wholeImpliesSubsetLemma(l1, l2, z, p => l1.head.y <= p.y) }
             l1.head::z
         }
         else {
-            tranisitiveSortedListLemmaY(l1, l2.head.y, l1.head.y)
-            val z = mergeY(l1, l2.tail) 
-            wholeImpliesSubsetLemma(l1, l2, z, p => l2.head.y <= p.y)
+            ghost { tranisitiveSortedListLemmaY(l1, l2.head.y, l1.head.y) }
+            val z = mergeY(l1, l2.tail)
+            ghost { wholeImpliesSubsetLemma(l1, l2, z, p => l2.head.y <= p.y) }
             l2.head::z
         }
     }.ensuring(res0 => l1.size + l2.size == res0.size && isSortedY(res0) && res0.content == l1.content ++ l2.content)
 
      /* Function that implements `list.filter` and proves that filtering
     few elements of list sorted by Y-coordinates results in a sorted list */
+    @ghostAnnot
     def filterSorted(l: List[Point], p: Point => Boolean): Unit = {
         require(isSortedY(l))
         if(!l.isEmpty){
@@ -162,13 +168,14 @@ package helper:
             assert(l.forall(p => l.head.y <= p.y))
             wholeImpliesSubsetLemma(l, List(), tail_sorted, (p => l.head.y <= p.y))
             assert(tail_sorted.forall(p => l.head.y <= p.y))
-        }   
+        }
     }.ensuring(_ => isSortedY(l.filter(p)) && l.filter(p).content.subsetOf(l.content))
 
 
     /********************************* Take, drop and split for sorted lists ************************/
 
     /* Proves that list.take preserves sorted property */
+    @ghostAnnot
     def take(l: List[Point], index: BigInt): Unit = {
         require(isSortedX(l))
         if(!l.isEmpty && index > 0){
@@ -176,7 +183,7 @@ package helper:
             take(l.tail, index - 1)
             assert(index -1 < 0 || index - 1 >= l.tail.size || {val a = l.tail(index-1).x
                 z.forall(p => p.x <= a)})
-            if !z.isEmpty then 
+            if !z.isEmpty then
                 tranisitiveSortedListLemmaX(z, l.head.x, l.tail.head.x)
             if(index >= 1 && index < l.size){
                 listContainsElement(l.tail, index -1)
@@ -187,16 +194,17 @@ package helper:
                 tranisitiveSortedListIncreasingLemmaX(z, a, b)
                 assert(z.forall(p=> p.x <= b))
                 instantiateForAll(l, p=> l.head.x <= p.x, l(index))
-                assert(l.head.x <= b)            
+                assert(l.head.x <= b)
                 assert((l.head::z).forall(p=> p.x <= b))
             }
-        }        
-    }.ensuring(_ => isSortedX(l.take(index)) && (l.isEmpty || l.take(index).isEmpty || l.head == l.take(index).head) && 
+        }
+    }.ensuring(_ => isSortedX(l.take(index)) && (l.isEmpty || l.take(index).isEmpty || l.head == l.take(index).head) &&
     (l.take(index).isEmpty || index < 0 || index >= l.size || {val a = l(index).x
         l.take(index).forall(p => p.x <= a)}))
 
 
     /* Proves that list.drop preserves sorted property */
+    @ghostAnnot
     def drop(l: List[Point], index: BigInt): Unit = {
         require(isSortedX(l))
         if(!l.isEmpty && index > 0){
@@ -204,9 +212,10 @@ package helper:
         }
     }.ensuring(_ => isSortedX(l.drop(index)) && (index < 0 || index >=l.size || l.drop(index).isEmpty || l.drop(index).head == l(index)))
 
-    
+
 
     /* Proves that list.spliyAtIndex preserves sorted property */
+    @ghostAnnot
     def split(l: List[Point], index: BigInt): Unit = {
         require(isSortedX(l))
         if(!l.isEmpty) {
@@ -217,4 +226,4 @@ package helper:
         }
     }.ensuring(_ => isSortedX(l.take(index)) && isSortedX(l.drop(index)) && (index < 0 || index - 1 >= l.size || l.drop(index).isEmpty ||
     {val z = l.drop(index).head.x
-        l.take(index).forall(p => p.x <= z)})) 
+        l.take(index).forall(p => p.x <= z)}))

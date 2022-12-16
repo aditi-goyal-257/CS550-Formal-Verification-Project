@@ -3,7 +3,7 @@ where the number of points in the list is 2 or 3 */
 
 import stainless.collection._
 import stainless.lang._
-import stainless.annotation._
+import stainless.annotation.{ghost => ghostAnnot, _}
 import stainless.lang.StaticChecks._
 
 import point2d.*
@@ -15,46 +15,46 @@ import ClosestPoint.findClosestPairRec
 
 
 object bruteForce:
-     
+
     /* The base case of findClosestPairRec, given a list of points,
     returns the same list of points sorted by y-coordinates as well
     as well as closest pair of points */
-    def bruteForce(l: List[Point]): (List[Point], PairPoint) =  
+    def bruteForce(l: List[Point]): (List[Point], PairPoint) =
     {
-        require(l.size <= 3 && l.size >= 2) 
+        require(l.size <= 3 && l.size >= 2)
         val z = mergeSortY(l)
-        elementInsideListLemma(l, 1)
+        ghost { elementInsideListLemma(l, 1) }
         if l.size == 2 then (z, (l(0), l(1)))
         else {
-            elementInsideListLemma(l, 2)
+            ghost { elementInsideListLemma(l, 2) }
             val a = l(0).distance(l(1))
             val b = l(0).distance(l(2))
             val c = l(1).distance(l(2))
 
             /* Explicitly make conditions for verification process*/
             if(a <= b  && b <= c){
-                bruteForceConditionLemma(l(0), l(1), l(2))
+                ghost { bruteForceConditionLemma(l(0), l(1), l(2)) }
                 (z, (l(0), l(1)))
             }
             else if(a <= c && c <= b){
-                bruteForceConditionLemma(l(1), l(0), l(2))
+                ghost { bruteForceConditionLemma(l(1), l(0), l(2)) }
                 (z, (l(1), l(0)))
             }
             else if(b <= a && a <= c){
-                bruteForceConditionLemma(l(0), l(2), l(1))
+                ghost { bruteForceConditionLemma(l(0), l(2), l(1)) }
                 (z, (l(0), l(2)))
             }
             else if(b <=c && c <= a){
-                bruteForceConditionLemma(l(2), l(0), l(1))
+                ghost { bruteForceConditionLemma(l(2), l(0), l(1)) }
                 (z, (l(2), l(0)))
             }
             else if(c <= a && a <= b){
-                bruteForceConditionLemma(l(1), l(2), l(0))
+                ghost { bruteForceConditionLemma(l(1), l(2), l(0)) }
                 (z, (l(1), l(2)))
             }
             else{
                 assert(c <= b && b <= a)
-                bruteForceConditionLemma(l(2), l(1), l(0))
+                ghost { bruteForceConditionLemma(l(2), l(1), l(0)) }
                 (z, (l(2), l(1)))
             }
         }
@@ -62,6 +62,7 @@ object bruteForce:
 
     /* Proves that if the list given to bruteForce is distinct, the
     points returned by it are also distinct */
+    @ghostAnnot
     def bruteForceDistinctLemma(l: List[Point], sorted_y: List[Point], p: PairPoint) = {
         require(l.size >= 2 && l.size <= 3 && isSortedX(l) && isDistinct(l) && (sorted_y, p) == findClosestPairRec(l))
         val z = mergeSortY(l)
@@ -97,6 +98,7 @@ object bruteForce:
     /* Assumes a certain ordering between distances of points,
     proves that it is deltaSparse where delta is the smallest distance between
     any pair of points */
+    @ghostAnnot
     def bruteForceConditionLemma(p1: Point, p2: Point, p3: Point) = {
         require(p1.distance(p2) <= p1.distance(p3) && p1.distance(p3) <= p2.distance(p3))
         val a = p1.distance(p2)

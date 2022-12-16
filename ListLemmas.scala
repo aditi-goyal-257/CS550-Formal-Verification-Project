@@ -1,6 +1,6 @@
 import stainless.collection._
 import stainless.lang._
-import stainless.annotation._
+import stainless.annotation.{ghost => ghostAnnot, _}
 import stainless.lang.StaticChecks._
 
 import point2d.*
@@ -13,15 +13,17 @@ object listLemmas:
 
    /* l(index) is contained in l.tail for any list given index
    is atleast 0 and less than size of the list*/
+    @ghostAnnot
     def elementInsideListLemma[T](l: List[T], index: BigInt): Unit = {
         require(index > 0 && index < l.size)
         if(index != 1){
             elementInsideListLemma(l.tail, index-1)
         }
     }.ensuring(_ => l.tail.contains(l(index)))
-    
+
     /* Properties for value returned by indexOf function
     for an element in list */
+    @ghostAnnot
     def indexOfElementPresentLemma[T](l: List[T], p: T): Unit = {
         require(l.contains(p))
         if(l.head != p){
@@ -29,6 +31,7 @@ object listLemmas:
         }
     }.ensuring(_ => l.indexOf(p) < l.size && l(l.indexOf(p)) == p)
 
+    @ghostAnnot
     def takeSameProperty[T](l: List[T], index: BigInt, index2: BigInt): Unit = {
         require(index >= 0 && index2 >= 0 &&index < l.size && index2 < index)
         if(index2 > 0){
@@ -36,18 +39,20 @@ object listLemmas:
         }
     }.ensuring(_ => l(index2) == l.take(index)(index2))
 
+    @ghostAnnot
     def dropSameProperty[T](l: List[T], index: BigInt, index2: BigInt): Unit = {
-        require(index2 >= 0 && index >= 0 && index2 + index < l.size && index + index2 >= 0) 
+        require(index2 >= 0 && index >= 0 && index2 + index < l.size && index + index2 >= 0)
         if(index > 0){
             dropSameProperty(l.tail, index-1, index2)
         }
-        
+
     }.ensuring(_ => l(index2 + index) == l.drop(index)(index2))
 
     /***************************  Lemmas related to list containing distinct points **********************/
 
     /* Taking 2 different indices for a list with distinct points
     ensures that the points at those indices are not equal */
+    @ghostAnnot
     def distinctLemma(l: List[Point], index1: BigInt, index2: BigInt): Unit = {
         require(index1 >= 0 && index1 < l.size && index2 >= 0  && index2 < l.size && index1 != index2 && isDistinct(l))
         if(!l.isEmpty){
@@ -70,8 +75,9 @@ object listLemmas:
         }
     }.ensuring(_ => l(index1) != l(index2))
 
-    /* l.take from distinct list l ensures resulting list 
+    /* l.take from distinct list l ensures resulting list
     is also distinct */
+    @ghostAnnot
     def takeDistinctLemma(l: List[Point], index: BigInt): Unit = {
         require(isDistinct(l))
         if(index >= 0 && !l.isEmpty){
@@ -82,8 +88,9 @@ object listLemmas:
     }.ensuring(_ => isDistinct(l.take(index)))
 
 
-    /* l.drop from distinct list l ensures resulting list 
+    /* l.drop from distinct list l ensures resulting list
     is also distinct */
+    @ghostAnnot
     def dropDistinctLemma(l: List[Point], index: BigInt) : Unit = {
         require(isDistinct(l))
         if(!l.isEmpty && index > 0){
@@ -95,6 +102,7 @@ object listLemmas:
 
    /* Splitting a distinct list ensures the 2 parts are
    distinct as well as don't have any point in common */
+    @ghostAnnot
     def splitDistinctLemma(l: List[Point], index: BigInt): Unit = {
         require(isDistinct(l) && index >= 0)
         takeDistinctLemma(l, index)
@@ -120,6 +128,7 @@ object listLemmas:
 
 
     /* MergeSort by X coordinates ensures a distinct list remains distinct */
+    @ghostAnnot
     def mergeSortXDistinctLemma(l: List[Point]) : Unit = {
         require(isDistinct(l))
         if(!l.isEmpty && !l.tail.isEmpty){
@@ -135,6 +144,7 @@ object listLemmas:
     }.ensuring(_ => isDistinct(mergeSortX(l)))
 
     /* MergeSort by Y coordinates ensures a distinct list remains distinct */
+    @ghostAnnot
     def mergeSortYDistinctLemma(l: List[Point]) : Unit = {
         require(isDistinct(l))
         if(!l.isEmpty && !l.tail.isEmpty){
@@ -148,11 +158,12 @@ object listLemmas:
         }
 
     }.ensuring(_ => isDistinct(mergeSortY(l)))
-    
+
     /* Provided 2 distinct sorted lists to mergeX, which don't
     have any common point ensures resulting list is also distinct */
+    @ghostAnnot
     def mergeXDistinctLemma(l1: List[Point], l2: List[Point]): Unit = {
-        require(isSortedX(l1) && isSortedX(l2) && isDistinct(l1) && isDistinct(l2) && l1.&(l2) == List[Point]()) 
+        require(isSortedX(l1) && isSortedX(l2) && isDistinct(l1) && isDistinct(l2) && l1.&(l2) == List[Point]())
         if(!l1.isEmpty && !l2.isEmpty){
             if(l1.head.x <= l2.head.x){
                 assert(!(l1.tail ++ l2).contains(l1.head))
@@ -164,11 +175,12 @@ object listLemmas:
             }
         }
     }.ensuring(_ => isDistinct(mergeX(l1, l2)))
-    
+
     /* Provided 2 distinct sorted lists to mergeY, which don't
     have any common point ensures resulting list is also distinct */
+    @ghostAnnot
     def mergeYDistinctLemma(l1: List[Point], l2: List[Point]): Unit = {
-        require(isSortedY(l1) && isSortedY(l2) && isDistinct(l1) && isDistinct(l2) && l1.&(l2) == List[Point]()) 
+        require(isSortedY(l1) && isSortedY(l2) && isDistinct(l1) && isDistinct(l2) && l1.&(l2) == List[Point]())
         if(!l1.isEmpty && !l2.isEmpty){
             if(l1.head.y <= l2.head.y){
                 assert(!(l1.tail ++ l2).contains(l1.head))
@@ -186,6 +198,7 @@ object listLemmas:
     /* Given an element in list which satisfies certain predicate,
     applying filter on the list results a list which contains the
     element */
+    @ghostAnnot
     def filteringLemma[T](l: List[T], predicate: T => Boolean, p: T): Unit = {
         require(l.contains(p) && predicate(p))
         if l.head != p then {
@@ -197,6 +210,7 @@ object listLemmas:
 
     /* Given a distinct list, filtering based on any predicate
     ensures that resulting list is also distinct */
+    @ghostAnnot
     def filteringPreservesDistinct(l: List[Point], predicate: Point => Boolean): Unit = {
         require(isDistinct(l))
         if(!l.isEmpty){
@@ -213,12 +227,14 @@ object listLemmas:
 
     /* A delta sparse point list is still delta sparse point after filtering
     based on any predicate */
+    @ghostAnnot
     def filteringPreservesDeltaPointSparsity(@induct l: List[Point], predicate: Point => Boolean, p: Point, delta: BigInt): Unit = {
         require(isSortedY(l) && deltaSparsePoint(delta, p, l))
     }.ensuring(_ => deltaSparsePoint(delta, p, l.filter(predicate)))
 
-    /* A delta sparse  list is still delta sparse after filtering based on 
+    /* A delta sparse  list is still delta sparse after filtering based on
     any predicate */
+    @ghostAnnot
     def filteringPreservesDeltaSparsity(l: List[Point], predicate: Point => Boolean, delta: BigInt): Unit = {
         require(isSortedY(l) && deltaSparse(delta, l))
         if(!l.isEmpty){
@@ -232,6 +248,7 @@ object listLemmas:
         }
     }.ensuring(_ => deltaSparse(delta, l.filter(predicate)))
 
+    @ghostAnnot
     def filteringTwiceEquivalentLemma(@induct ps: List[Point], l: BigInt, d1: BigInt, d2: BigInt): Unit = {
         require(isSortedY(ps) && d1 <= d2)
     }.ensuring(_ => ps.filter(p => p.distance(Point(l, p.y)) < d1 ) == ps.filter(p => p.distance(Point(l, p.y)) < d2).filter(p => p.distance(Point(l, p.y)) < d1))
@@ -242,6 +259,7 @@ object listLemmas:
 
     /* Provided a list sorted by X coordinates and 2 indices,
     the largest index point corresponds to larger X-coordinate */
+    @ghostAnnot
     def indexPreservesSorting(l: List[Point], a: BigInt, b: BigInt): Unit = {
         require(isSortedX(l) && a<=b)
         if(a >= 0 && b < l.size){
@@ -257,8 +275,9 @@ object listLemmas:
         }
     }.ensuring(_ => a < 0 || b >= l.size || l(a).x <= l(b).x)
 
-    
+
     /******************* Generic lemmas for list of points ******************/
+    @ghostAnnot
     def transitiveDistanceProperty(p: Point, d: BigInt, firstp: Point, @induct l: List[Point]): Unit = {
         require(isSortedY(l) && l.forall(p1 => firstp.y <= p1.y) && p.y <= firstp.y && d <= (firstp.y - p.y)*(firstp.y - p.y))
     }.ensuring(_ => deltaSparsePoint(min(p.distance(firstp), d), p, firstp::l))
