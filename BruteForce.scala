@@ -4,6 +4,7 @@ where the number of points in the list is 2 or 3 */
 import stainless.collection._
 import stainless.lang._
 import stainless.annotation._
+import stainless.lang.StaticChecks._
 
 import point2d.*
 import helper.*
@@ -91,7 +92,7 @@ object bruteForce:
                 distinctLemma(l, 2, 1)
             }
         }
-    }.ensuring(isDistinct(sorted_y) && p._1 != p._2)
+    }.ensuring(_ => isDistinct(sorted_y) && p._1 != p._2)
 
     /* Assumes a certain ordering between distances of points,
     proves that it is deltaSparse where delta is the smallest distance between

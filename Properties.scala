@@ -4,6 +4,7 @@ of functions in Main.scala */
 import stainless.collection._
 import stainless.lang._
 import stainless.annotation._
+import stainless.lang.StaticChecks._
 
 import point2d.*
 import helper.*
@@ -22,12 +23,12 @@ object lemmas:
     
     def findClosestPairinStripLemma(l : List[Point], res: PairPoint, x: PairPoint) = {
         require(isSortedY(l) && res == findClosestPairInStrip(x)(l))
-    }.ensuring(deltaSparse(pairDistance(res), l))
+    }.ensuring(_ => deltaSparse(pairDistance(res), l))
 
 
     def coordinateBoundLemma(p0: Point, l: BigInt, d: BigInt, @induct pr: List[Point]) = {
         require(p0.x <= l && d <= (p0.x - l)*(p0.x - l) && pr.forall(p => l <= p.x))
-    }.ensuring(pr.forall(p =>  d <= p0.distance(p)))
+    }.ensuring(_ => pr.forall(p =>  d <= p0.distance(p)))
 
     /* Proving that on considering the 2-delta wide strip out of all the points,
     we do not lose on any possible answer */
@@ -85,14 +86,14 @@ object lemmas:
             filteringPreservesDeltaSparsity(combine_filtered, p => p.distance(Point(l, p.y)) < d, d)
             deltaSparsityLemma(d, filtered, p0, p1)
         }
-    }.ensuring(deltaSparse(pairDistance(p), ps))
+    }.ensuring(_ => deltaSparse(pairDistance(p), ps))
 
 
     /************************* Lemmas to prove the pair returned has distinct points if the list had only distinct points ***************/
 
     def closestPointDistinctLemma(p: Point, d: BigInt, l: List[Point], res: Point) ={
         require(!l.isEmpty && isSortedY(l) && p.y <= l.head.y && findClosestPointInStrip(p)(d)(l) == res && !l.contains(p))
-    }.ensuring(res != p)
+    }.ensuring(_ => res != p)
 
     def closestPairDistinctLemma(x: PairPoint, l: List[Point], res: PairPoint): Unit = {
         require(isDistinct(l) && isSortedY(l) && findClosestPairInStrip(x)(l) == res && x._1 != x._2)
@@ -109,7 +110,7 @@ object lemmas:
             }
         }
 
-    }.ensuring(res._1 != res._2)
+    }.ensuring(_ => res._1 != res._2)
 
     def combineDistinctLemma(lpoint: PairPoint, rpoint: PairPoint, div: BigInt, l: List[Point], res: PairPoint): Unit = {
         require(lpoint._1 != lpoint._2 && rpoint._1 != rpoint._2 && isDistinct(l) && isSortedY(l) && res == combine(lpoint)(rpoint)(div)(l))
@@ -119,7 +120,7 @@ object lemmas:
         filterSorted(l, p => p.distance(Point(div, p.y)) < d)
         filteringPreservesDistinct(l, p => p.distance(Point(div, p.y)) < d)
         closestPairDistinctLemma(z, l2, res)
-    }.ensuring(res._1 != res._2)
+    }.ensuring(_ => res._1 != res._2)
 
 
     def findClosestPairRecDistinctLemma(l: List[Point], sorted_y: List[Point], p: PairPoint): Unit = {
@@ -142,25 +143,25 @@ object lemmas:
             bruteForceDistinctLemma(l, sorted_y, p)
         }
         
-    }.ensuring(isDistinct(sorted_y) && p._1 != p._2)
+    }.ensuring(_ => isDistinct(sorted_y) && p._1 != p._2)
 
 
 
     /* Correctness of findClosestPairRec */
     def theorem1(xs: List[Point], ys: List[Point], p: PairPoint) = {
         require(1 < xs.length && isSortedX(xs) && (ys, p) == findClosestPairRec(xs))
-    }.ensuring(deltaSparse(pairDistance(p), xs))
+    }.ensuring(_ => deltaSparse(pairDistance(p), xs))
 
 
     /* Correctness of findClosestPair proved by corollary1 + theorem2 + theorem3 */
 
     def corollary1(xs: List[Point], p: PairPoint) = {
         require(1 < xs.length && p == findClosestPair(xs))
-    }.ensuring(deltaSparse(pairDistance(p), xs))
+    }.ensuring(_ => deltaSparse(pairDistance(p), xs))
 
     def theorem2(xs: List[Point], p0: Point, p1: Point) = {
         require(1 < xs.length && (p0, p1) == findClosestPair(xs))
-    }.ensuring(xs.contains(p0) && xs.contains(p1))
+    }.ensuring(_ => xs.contains(p0) && xs.contains(p1))
 
     def theorem3(xs: List[Point], p0: Point, p1: Point) = {
         require(1 < xs.length && isDistinct(xs) && (p0, p1) == findClosestPair(xs))
@@ -168,4 +169,4 @@ object lemmas:
         val l = mergeSortX(xs)
         val res = findClosestPairRec(l)
         findClosestPairRecDistinctLemma(l, res._1, res._2)
-    }.ensuring(p0!=p1)
+    }.ensuring(_ => p0!=p1)

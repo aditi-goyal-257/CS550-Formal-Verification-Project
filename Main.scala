@@ -4,6 +4,7 @@ import stainless.collection._
 import stainless.lang._
 import stainless.annotation._
 import stainless.equations._
+import stainless.lang.StaticChecks._
 
 import point2d.*
 import helper.*

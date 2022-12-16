@@ -8,7 +8,7 @@ import stainless.equations._
 import point2d._
 import sparsity._
 import sparsityLemmas._
-
+import stainless.lang.StaticChecks._
 
 package helper:
 

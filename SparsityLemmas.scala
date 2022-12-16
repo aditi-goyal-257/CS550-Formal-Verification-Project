@@ -1,6 +1,7 @@
 import stainless.collection._
 import stainless.lang._
 import stainless.annotation._
+import stainless.lang.StaticChecks._
 
 import point2d.*
 import sparsity.*
@@ -15,7 +16,7 @@ object sparsityLemmas:
             l.tail.contains(p1)
             deltaSparsePointLemma(delta, p0, l.tail, p1)
         }
-    }.ensuring(p0 == p1 || delta <= p1.distance(p0))
+    }.ensuring(_ => p0 == p1 || delta <= p1.distance(p0))
 
     /* Having 2 distinct points from a delta sparse list ensures that the
     distance between those 2 points is atleast delta */
@@ -32,13 +33,13 @@ object sparsityLemmas:
         else{
             deltaSparsityLemma(delta, l.tail, p0, p1)
         }
-    }.ensuring(p0 == p1||delta <= p1.distance(p0))
+    }.ensuring(_ => p0 == p1||delta <= p1.distance(p0))
 
     /* Reducing delta in the delta point sparsity still preserves the
     sparsity property */
     def reducingDeltaPreservesPointSparsity(delta1: BigInt, delta2: BigInt, p: Point, @induct l: List[Point]) = {
         require(deltaSparsePoint(delta1, p, l) && delta2 <= delta1)
-    }.ensuring(deltaSparsePoint(delta2, p, l))
+    }.ensuring(_ => deltaSparsePoint(delta2, p, l))
 
     /* Reducing delta in the delta sparsity for a list still preserves
     the sparsity property */
@@ -48,7 +49,7 @@ object sparsityLemmas:
             reducingDeltaPreservesPointSparsity(delta1, delta2, l.head, l)
             reducingDeltaPreservesSparsity(delta1, delta2, l.tail)
         }
-    }.ensuring(deltaSparse(delta2, l))
+    }.ensuring(_ => deltaSparse(delta2, l))
 
     /* Taking subset of a delta sparse list still preserves
     the sparsity property */
@@ -61,4 +62,4 @@ object sparsityLemmas:
             deltaSparsityLemma(delta, l1, p0, p1)
         }
 
-    }.ensuring(deltaSparse(delta, l2))
+    }.ensuring(_ => deltaSparse(delta, l2))

@@ -2,15 +2,16 @@ import stainless.collection._
 import stainless.lang._
 import stainless.annotation._
 import stainless.equations._
+import stainless.lang.StaticChecks._
 
 import point2d.*
-// import helper.*
-// import listLemmas.*
-// import sparsity.*
-// import sparsityLemmas.*
-// import bruteForce.*
-// import lemmas.*
-import ClosestPointUnverified.*
+import helper.*
+import listLemmas.*
+import sparsity.*
+import sparsityLemmas.*
+import bruteForce.*
+import lemmas.*
+import ClosestPoint.*
 
 object Testing:
     extension (pt: Point) {

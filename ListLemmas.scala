@@ -1,6 +1,7 @@
 import stainless.collection._
 import stainless.lang._
 import stainless.annotation._
+import stainless.lang.StaticChecks._
 
 import point2d.*
 import helper.*
@@ -17,7 +18,7 @@ object listLemmas:
         if(index != 1){
             elementInsideListLemma(l.tail, index-1)
         }
-    }.ensuring(l.tail.contains(l(index)))
+    }.ensuring(_ => l.tail.contains(l(index)))
     
     /* Properties for value returned by indexOf function
     for an element in list */
@@ -67,7 +68,7 @@ object listLemmas:
                 distinctLemma(l.tail, index1-1, index2-1)
             }
         }
-    }.ensuring(l(index1) != l(index2))
+    }.ensuring(_ => l(index1) != l(index2))
 
     /* l.take from distinct list l ensures resulting list 
     is also distinct */
@@ -191,7 +192,7 @@ object listLemmas:
             l.tail.contains(p)
             filteringLemma(l.tail, predicate, p)
         }
-    }.ensuring(l.filter(predicate).contains(p))
+    }.ensuring(_ => l.filter(predicate).contains(p))
 
 
     /* Given a distinct list, filtering based on any predicate
@@ -214,7 +215,7 @@ object listLemmas:
     based on any predicate */
     def filteringPreservesDeltaPointSparsity(@induct l: List[Point], predicate: Point => Boolean, p: Point, delta: BigInt): Unit = {
         require(isSortedY(l) && deltaSparsePoint(delta, p, l))
-    }.ensuring(deltaSparsePoint(delta, p, l.filter(predicate)))
+    }.ensuring(_ => deltaSparsePoint(delta, p, l.filter(predicate)))
 
     /* A delta sparse  list is still delta sparse after filtering based on 
     any predicate */
@@ -229,11 +230,11 @@ object listLemmas:
                 filteringPreservesDeltaSparsity(l.tail, predicate, delta)
             }
         }
-    }.ensuring(deltaSparse(delta, l.filter(predicate)))
+    }.ensuring(_ => deltaSparse(delta, l.filter(predicate)))
 
     def filteringTwiceEquivalentLemma(@induct ps: List[Point], l: BigInt, d1: BigInt, d2: BigInt): Unit = {
         require(isSortedY(ps) && d1 <= d2)
-    }.ensuring(ps.filter(p => p.distance(Point(l, p.y)) < d1 ) == ps.filter(p => p.distance(Point(l, p.y)) < d2).filter(p => p.distance(Point(l, p.y)) < d1))
+    }.ensuring(_ => ps.filter(p => p.distance(Point(l, p.y)) < d1 ) == ps.filter(p => p.distance(Point(l, p.y)) < d2).filter(p => p.distance(Point(l, p.y)) < d1))
 
 
    /********************** Lemma related to sorted lists **************/
