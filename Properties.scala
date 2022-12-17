@@ -3,7 +3,7 @@ of functions in Main.scala */
 
 import stainless.collection._
 import stainless.lang._
-import stainless.annotation._
+import stainless.annotation.{ghost => ghostAnnot, _}
 import stainless.lang.StaticChecks._
 
 import point2d.*
@@ -20,21 +20,23 @@ import ClosestPoint.findClosestPair
 
 
 object lemmas:
-    
+    @ghostAnnot
     def findClosestPairinStripLemma(l : List[Point], res: PairPoint, x: PairPoint) = {
         require(isSortedY(l) && res == findClosestPairInStrip(x)(l))
     }.ensuring(_ => deltaSparse(pairDistance(res), l))
 
 
+    @ghostAnnot
     def coordinateBoundLemma(p0: Point, l: BigInt, d: BigInt, @induct pr: List[Point]) = {
         require(p0.x <= l && d <= (p0.x - l)*(p0.x - l) && pr.forall(p => l <= p.x))
     }.ensuring(_ => pr.forall(p =>  d <= p0.distance(p)))
 
     /* Proving that on considering the 2-delta wide strip out of all the points,
     we do not lose on any possible answer */
+    @ghostAnnot
     def divideAndConquerLemma(l1: List[Point], p0: Point, p1: Point, d: BigInt, l: BigInt, pl: List[Point], pr: List[Point], l2: List[Point]): Unit ={
         require(l1.contains(p0) && l1.contains(p1) && p0!=p1 && p0.distance(p1) < d && pl.forall(p => p.x <= l) && pr.forall(p => l <= p.x) && deltaSparse(d, pl) && deltaSparse(d, pr) && l1.content == pl.content ++ pr.content && l2 == l1.filter(p => p.distance(Point(l, p.y)) < d))
-        
+
         if(pl.contains(p0)){
             if(pl.contains(p1)){
                 deltaSparsityLemma(d, pl, p1, p0)
@@ -70,6 +72,7 @@ object lemmas:
     }.ensuring(_ => l2.contains(p0) && l2.contains(p1))
 
     /* Correctness of the combine step */
+    @ghostAnnot
     def combineLemma(ps: List[Point], pl: List[Point], pr: List[Point], l: BigInt, left_pair: PairPoint, right_pair: PairPoint, p: PairPoint) = {
         require(isSortedY(ps) && ps.content == pl.content ++ pr.content && pl.forall(p => p.x <= l) && deltaSparse(pairDistance(left_pair), pl) && pr.forall(p => l <= p.x) && deltaSparse(pairDistance(right_pair), pr) && p == combine(left_pair)(right_pair)(l)(ps))
         val d = pairDistance(p)
@@ -91,10 +94,12 @@ object lemmas:
 
     /************************* Lemmas to prove the pair returned has distinct points if the list had only distinct points ***************/
 
+    @ghostAnnot
     def closestPointDistinctLemma(p: Point, d: BigInt, l: List[Point], res: Point) ={
         require(!l.isEmpty && isSortedY(l) && p.y <= l.head.y && findClosestPointInStrip(p)(d)(l) == res && !l.contains(p))
     }.ensuring(_ => res != p)
 
+    @ghostAnnot
     def closestPairDistinctLemma(x: PairPoint, l: List[Point], res: PairPoint): Unit = {
         require(isDistinct(l) && isSortedY(l) && findClosestPairInStrip(x)(l) == res && x._1 != x._2)
         if(!l.isEmpty && !l.tail.isEmpty){
@@ -112,6 +117,7 @@ object lemmas:
 
     }.ensuring(_ => res._1 != res._2)
 
+    @ghostAnnot
     def combineDistinctLemma(lpoint: PairPoint, rpoint: PairPoint, div: BigInt, l: List[Point], res: PairPoint): Unit = {
         require(lpoint._1 != lpoint._2 && rpoint._1 != rpoint._2 && isDistinct(l) && isSortedY(l) && res == combine(lpoint)(rpoint)(div)(l))
         val z = compare(lpoint, rpoint)
@@ -122,7 +128,7 @@ object lemmas:
         closestPairDistinctLemma(z, l2, res)
     }.ensuring(_ => res._1 != res._2)
 
-
+    @ghostAnnot
     def findClosestPairRecDistinctLemma(l: List[Point], sorted_y: List[Point], p: PairPoint): Unit = {
         require(l.size >= 2 && isSortedX(l) && isDistinct(l) && (sorted_y, p) == findClosestPairRec(l))
         decreases(l.size)
@@ -142,12 +148,13 @@ object lemmas:
         else{
             bruteForceDistinctLemma(l, sorted_y, p)
         }
-        
+
     }.ensuring(_ => isDistinct(sorted_y) && p._1 != p._2)
 
 
 
     /* Correctness of findClosestPairRec */
+    @ghostAnnot
     def theorem1(xs: List[Point], ys: List[Point], p: PairPoint) = {
         require(1 < xs.length && isSortedX(xs) && (ys, p) == findClosestPairRec(xs))
     }.ensuring(_ => deltaSparse(pairDistance(p), xs))
@@ -155,14 +162,17 @@ object lemmas:
 
     /* Correctness of findClosestPair proved by corollary1 + theorem2 + theorem3 */
 
+    @ghostAnnot
     def corollary1(xs: List[Point], p: PairPoint) = {
         require(1 < xs.length && p == findClosestPair(xs))
     }.ensuring(_ => deltaSparse(pairDistance(p), xs))
 
+    @ghostAnnot
     def theorem2(xs: List[Point], p0: Point, p1: Point) = {
         require(1 < xs.length && (p0, p1) == findClosestPair(xs))
     }.ensuring(_ => xs.contains(p0) && xs.contains(p1))
 
+    @ghostAnnot
     def theorem3(xs: List[Point], p0: Point, p1: Point) = {
         require(1 < xs.length && isDistinct(xs) && (p0, p1) == findClosestPair(xs))
         mergeSortXDistinctLemma(xs)
