@@ -189,25 +189,6 @@ package helper:
         z.reverse
     }.ensuring(res0 => l1.size + l2.size == res0.size && isSortedX(res0) && res0.content == l1.content ++ l2.content)
 
-    // def mergeX(l1: List[Point], l2: List[Point]): List[Point]={
-    //     require( isSortedX(l1) && isSortedX(l2))
-    //     if l1.isEmpty then l2
-    //     else if l2.isEmpty then l1
-    //     else if l1.head.x <= l2.head.x then {
-    //         tranisitiveSortedListLemmaX(l2, l1.head.x, l2.head.x)
-    //         val z = mergeX(l1.tail, l2)
-    //         wholeImpliesSubsetLemma(l1, l2, z, p => l1.head.x <= p.x)
-    //         l1.head::z
-    //     }
-    //     else {
-    //         tranisitiveSortedListLemmaX(l1, l2.head.x, l1.head.x)
-    //         val z = mergeX(l1, l2.tail)
-    //         wholeImpliesSubsetLemma(l1, l2, z, p => l2.head.x <= p.x)
-    //         l2.head::z
-
-    //     }
-    // }.ensuring(res0 => l1.size + l2.size == res0.size && isSortedX(res0) && res0.content == l1.content ++ l2.content)
-
     /************************************** Functions related to y-coordinates **************************************/
 
 
