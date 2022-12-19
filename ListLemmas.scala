@@ -151,35 +151,52 @@ object listLemmas:
     
     /* Provided 2 distinct sorted lists to mergeX, which don't
     have any common point ensures resulting list is also distinct */
+
+    def mergeXAccDistinctLemma(l1: List[Point], l2: List[Point] , acc: List[Point]): Unit = {
+        require(isSortedX(l1) && isSortedX(l2) && isReverseSortedX(acc) && (l1.isEmpty || {val a = l1.head.x; acc.forall(p => p.x <= a)}) && (l2.isEmpty || {val a = l2.head.x; acc.forall(p => p.x <= a)}) && isDistinct(l1) && isDistinct(l2) && isDistinct(acc) && l1.&(l2) == List[Point]() && l1.&(acc) == List[Point]() && l2.&(acc) == List[Point]())
+        
+        if(l1.isEmpty && l2.isEmpty) then assert(isDistinct(acc))
+        else if (l1.isEmpty) then {
+            mergeXLemma(l2.head, acc)
+            if(!l2.tail.isEmpty){
+                val a = l2.tail.head
+                instantiateForAll(l2.tail, p => l2.head.x <= p.x, a)
+                tranisitiveSortedListIncreasingLemmaX(acc, l2.tail.head.x, l2.head.x)
+            }
+            mergeXAccDistinctLemma(l1 , l2.tail , l2.head :: acc)
+        }
+        else if (l2.isEmpty) then {
+            mergeXLemma(l1.head, acc)
+            if(!l1.tail.isEmpty){
+                instantiateForAll(l1.tail, p => l1.head.x <= p.x, l1.tail.head)
+                tranisitiveSortedListIncreasingLemmaX(acc, l1.tail.head.x, l1.head.x)
+            }
+            mergeXAccDistinctLemma( l1.tail, l2,  l1.head :: acc)
+        }
+        else if l1.head.x <= l2.head.x then {
+            mergeXLemma(l1.head, acc)
+            if(!l1.tail.isEmpty){
+                instantiateForAll(l1.tail, p => l1.head.x <= p.x, l1.tail.head)
+                tranisitiveSortedListIncreasingLemmaX(acc, l1.tail.head.x, l1.head.x)
+            }
+            mergeXAccDistinctLemma(l1.tail , l2 , l1.head :: acc)
+        }
+        else{
+            mergeXLemma(l2.head, acc)
+            if(!l2.tail.isEmpty){
+                instantiateForAll(l2.tail, p => l2.head.x <= p.x, l2.tail.head)
+                tranisitiveSortedListIncreasingLemmaX(acc, l2.tail.head.x, l2.head.x)
+            }
+            mergeXAccDistinctLemma(l1 , l2.tail , l2.head:: acc)
+        }
+        
+    }.ensuring(_ => isDistinct(mergeXAcc(l1, l2, acc))) 
+
     def mergeXDistinctLemma(l1: List[Point], l2: List[Point]): Unit = {
         require(isSortedX(l1) && isSortedX(l2) && isDistinct(l1) && isDistinct(l2) && l1.&(l2) == List[Point]())
-        if(!l1.isEmpty && !l2.isEmpty){
-            if(l1.head.x <= l2.head.x){
-                assert(!(l1.tail ++ l2).contains(l1.head))
-                mergeXDistinctLemma(l1.tail, l2)
-            }
-            else{
-                assert(!(l1 ++ l2.tail).contains(l2.head))
-                mergeXDistinctLemma(l1, l2.tail)
-            }
-        }
+        mergeXAccDistinctLemma(l1, l2, List[Point]())
+        reversePreservesDistinct(mergeXAcc(l1, l2, List[Point]()))
     }.ensuring(_ => isDistinct(mergeX(l1, l2)))
-    
-    /* Provided 2 distinct sorted lists to mergeY, which don't
-    have any common point ensures resulting list is also distinct */
-    // def mergeYDistinctLemma(l1: List[Point], l2: List[Point]): Unit = {
-    //     require(isSortedY(l1) && isSortedY(l2) && isDistinct(l1) && isDistinct(l2) && l1.&(l2) == List[Point]()) 
-    //     if(!l1.isEmpty && !l2.isEmpty){
-    //         if(l1.head.y <= l2.head.y){
-    //             assert(!(l1.tail ++ l2).contains(l1.head))
-    //             mergeYDistinctLemma(l1.tail, l2)
-    //         }
-    //         else{
-    //             assert(!(l1 ++ l2.tail).contains(l2.head))
-    //             mergeYDistinctLemma(l1, l2.tail)
-    //         }
-    //     }
-    // }.ensuring(_ => isDistinct(mergeY(l1, l2)))
 
     def lastIndexProperty(@induct l: List[Point]): Unit= {
     }.ensuring(_ => l.isEmpty || l(l.size -1) == l.last)
@@ -254,8 +271,6 @@ object listLemmas:
         mergeYAccDistinctLemma(l1, l2, List[Point]())
         reversePreservesDistinct(mergeYAcc(l1, l2, List[Point]()))
     }.ensuring(_ => isDistinct(mergeY(l1, l2)))
-
-
 
     /*******************************  Lemmas related to filtering **************************/
 
