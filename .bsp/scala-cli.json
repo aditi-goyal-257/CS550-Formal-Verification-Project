@@ -1,0 +1,16 @@
+{
+  "name": "scala-cli",
+  "argv": [
+    "/home/suhas/.local/share/coursier/bin/.scala-cli.aux",
+    "bsp",
+    "--json-options",
+    "/home/suhas/Desktop/PADHAI/sem7/CS550/CS550-Formal-Verification-Project/.scala-build/ide-options-v2.json",
+    "/home/suhas/Desktop/PADHAI/sem7/CS550/CS550-Formal-Verification-Project/TestCases.scala"
+  ],
+  "version": "0.1.14",
+  "bspVersion": "2.1.0-M1",
+  "languages": [
+    "scala",
+    "java"
+  ]
+}
