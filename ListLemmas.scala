@@ -161,36 +161,126 @@ object listLemmas:
 
     /* Provided 2 distinct sorted lists to mergeX, which don't
     have any common point ensures resulting list is also distinct */
+
     @ghostAnnot
+    def mergeXAccDistinctLemma(l1: List[Point], l2: List[Point] , acc: List[Point]): Unit = {
+        require(isSortedX(l1) && isSortedX(l2) && isReverseSortedX(acc) && (l1.isEmpty || {val a = l1.head.x; acc.forall(p => p.x <= a)}) && (l2.isEmpty || {val a = l2.head.x; acc.forall(p => p.x <= a)}) && isDistinct(l1) && isDistinct(l2) && isDistinct(acc) && l1.&(l2) == List[Point]() && l1.&(acc)== List[Point]() && l2.&(acc) == List[Point]())
+        
+        if(l1.isEmpty && l2.isEmpty) then assert(isDistinct(acc))
+        else if (l1.isEmpty) then {
+            mergeXLemma(l2.head, acc)
+            if(!l2.tail.isEmpty){
+                val a = l2.tail.head
+                instantiateForAll(l2.tail, p => l2.head.x <= p.x, a)
+                tranisitiveSortedListIncreasingLemmaX(acc, l2.tail.head.x, l2.head.x)
+            }
+            mergeXAccDistinctLemma(l1 , l2.tail , l2.head :: acc)
+        }
+        else if (l2.isEmpty) then {
+            mergeXLemma(l1.head, acc)
+            if(!l1.tail.isEmpty){
+                instantiateForAll(l1.tail, p => l1.head.x <= p.x, l1.tail.head)
+                tranisitiveSortedListIncreasingLemmaX(acc, l1.tail.head.x, l1.head.x)
+            }
+            mergeXAccDistinctLemma( l1.tail, l2,  l1.head :: acc)
+        }
+        else if l1.head.x <= l2.head.x then {
+            mergeXLemma(l1.head, acc)
+            if(!l1.tail.isEmpty){
+                instantiateForAll(l1.tail, p => l1.head.x <= p.x, l1.tail.head)
+                tranisitiveSortedListIncreasingLemmaX(acc, l1.tail.head.x, l1.head.x)
+            }
+            mergeXAccDistinctLemma(l1.tail , l2 , l1.head :: acc)
+        }
+        else{
+            mergeXLemma(l2.head, acc)
+            if(!l2.tail.isEmpty){
+                instantiateForAll(l2.tail, p => l2.head.x <= p.x, l2.tail.head)
+                tranisitiveSortedListIncreasingLemmaX(acc, l2.tail.head.x, l2.head.x)
+            }
+            mergeXAccDistinctLemma(l1 , l2.tail , l2.head:: acc)
+        }
+        
+    }.ensuring(_ => isDistinct(mergeXAcc(l1, l2, acc))) 
+
     def mergeXDistinctLemma(l1: List[Point], l2: List[Point]): Unit = {
         require(isSortedX(l1) && isSortedX(l2) && isDistinct(l1) && isDistinct(l2) && l1.&(l2) == List[Point]())
-        if(!l1.isEmpty && !l2.isEmpty){
-            if(l1.head.x <= l2.head.x){
-                assert(!(l1.tail ++ l2).contains(l1.head))
-                mergeXDistinctLemma(l1.tail, l2)
-            }
-            else{
-                assert(!(l1 ++ l2.tail).contains(l2.head))
-                mergeXDistinctLemma(l1, l2.tail)
-            }
-        }
+        mergeXAccDistinctLemma(l1, l2, List[Point]())
+        reversePreservesDistinct(mergeXAcc(l1, l2, List[Point]()))
     }.ensuring(_ => isDistinct(mergeX(l1, l2)))
 
-    /* Provided 2 distinct sorted lists to mergeY, which don't
-    have any common point ensures resulting list is also distinct */
-    @ghostAnnot
-    def mergeYDistinctLemma(l1: List[Point], l2: List[Point]): Unit = {
-        require(isSortedY(l1) && isSortedY(l2) && isDistinct(l1) && isDistinct(l2) && l1.&(l2) == List[Point]())
-        if(!l1.isEmpty && !l2.isEmpty){
-            if(l1.head.y <= l2.head.y){
-                assert(!(l1.tail ++ l2).contains(l1.head))
-                mergeYDistinctLemma(l1.tail, l2)
-            }
-            else{
-                assert(!(l1 ++ l2.tail).contains(l2.head))
-                mergeYDistinctLemma(l1, l2.tail)
+    def lastIndexProperty(@induct l: List[Point]): Unit= {
+    }.ensuring(_ => l.isEmpty || l(l.size -1) == l.last)
+
+    def initIsDistinct(@induct l: List[Point]): Unit = {
+        require(isDistinct(l))
+    }.ensuring(_ => l.isEmpty || isDistinct(l.init))
+
+    def reversePreservesDistinct(l: List[Point]): Unit = {
+        require(isDistinct(l))
+        if(!l.isEmpty){
+            if(!l.tail.isEmpty){
+                reversePreservesDistinct(l.tail)
+                distinctLemma(l, 0, l.size - 1)
+                assert(l(0) == l.head)
+                lastIndexProperty(l)
+                assert(l(l.size -1) == l.last)
+                assert(l.head != l.last)
+                initIsDistinct(l)
+                assert(isDistinct(l.init))
+                reversePreservesDistinct(l.init)
+                reverseProperty(l)
             }
         }
+        assert(isDistinct(l.reverse))
+        assert(l.isEmpty || !l.init.contains(l.last))
+
+    }.ensuring(_ => isDistinct(l.reverse) && (l.isEmpty || !l.init.contains(l.last)))
+
+    def mergeYAccDistinctLemma(l1: List[Point], l2: List[Point], acc: List[Point]): Unit = {
+        require(isSortedY(l1) && isSortedY(l2) && isReverseSortedY(acc) && (l1.isEmpty || {val a = l1.head.y; acc.forall(p => p.y <= a)}) && (l2.isEmpty || {val a = l2.head.y; acc.forall(p => p.y <= a)}) && isDistinct(l1) && isDistinct(l2) && isDistinct(acc) && l1.&(l2) == List[Point]() && l1.&(acc) == List[Point]() && l2.&(acc) == List[Point]())
+        
+        if(l1.isEmpty && l2.isEmpty) then assert(isDistinct(acc))
+        else if (l1.isEmpty) then {
+            mergeYLemma(l2.head, acc)
+            if(!l2.tail.isEmpty){
+                val a = l2.tail.head
+                instantiateForAll(l2.tail, p => l2.head.y <= p.y, a)
+                tranisitiveSortedListIncreasingLemmaY(acc, l2.tail.head.y, l2.head.y)
+            }
+            mergeYAccDistinctLemma(l1 , l2.tail , l2.head :: acc)
+        }
+        else if (l2.isEmpty) then {
+            mergeYLemma(l1.head, acc)
+            if(!l1.tail.isEmpty){
+                instantiateForAll(l1.tail, p => l1.head.y <= p.y, l1.tail.head)
+                tranisitiveSortedListIncreasingLemmaY(acc, l1.tail.head.y, l1.head.y)
+            }
+            mergeYAccDistinctLemma( l1.tail, l2,  l1.head :: acc)
+        }
+        else if l1.head.y <= l2.head.y then {
+            mergeYLemma(l1.head, acc)
+            if(!l1.tail.isEmpty){
+                instantiateForAll(l1.tail, p => l1.head.y <= p.y, l1.tail.head)
+                tranisitiveSortedListIncreasingLemmaY(acc, l1.tail.head.y, l1.head.y)
+            }
+            mergeYAccDistinctLemma(l1.tail , l2 , l1.head :: acc)
+        }
+        else{
+            mergeYLemma(l2.head, acc)
+            if(!l2.tail.isEmpty){
+                instantiateForAll(l2.tail, p => l2.head.y <= p.y, l2.tail.head)
+                tranisitiveSortedListIncreasingLemmaY(acc, l2.tail.head.y, l2.head.y)
+            }
+            mergeYAccDistinctLemma(l1 , l2.tail , l2.head:: acc)
+        }
+
+    }.ensuring(_ => isDistinct(mergeYAcc(l1, l2, acc)))
+
+    def mergeYDistinctLemma(l1: List[Point], l2: List[Point]): Unit = {
+        require(isSortedY(l1) && isSortedY(l2) && isDistinct(l1) && isDistinct(l2) && l1.&(l2) == List[Point]())
+        mergeYAccDistinctLemma(l1, l2, List[Point]())
+        reversePreservesDistinct(mergeYAcc(l1, l2, List[Point]()))
     }.ensuring(_ => isDistinct(mergeY(l1, l2)))
 
     /*******************************  Lemmas related to filtering **************************/
