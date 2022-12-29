@@ -159,9 +159,8 @@ object listLemmas:
 
     }.ensuring(_ => isDistinct(mergeSortY(l)))
 
-    /* Provided 2 distinct sorted lists to mergeX, which don't
+    /* Provided 2 distinct sorted lists to mergeXAcc, which don't
     have any common point ensures resulting list is also distinct */
-
     @ghostAnnot
     def mergeXAccDistinctLemma(l1: List[Point], l2: List[Point] , acc: List[Point]): Unit = {
         require(isSortedX(l1) && isSortedX(l2) && isReverseSortedX(acc) && (l1.isEmpty || {val a = l1.head.x; acc.forall(p => p.x <= a)}) && (l2.isEmpty || {val a = l2.head.x; acc.forall(p => p.x <= a)}) && isDistinct(l1) && isDistinct(l2) && isDistinct(acc) && l1.&(l2) == List[Point]() && l1.&(acc)== List[Point]() && l2.&(acc) == List[Point]())
@@ -202,7 +201,9 @@ object listLemmas:
         }
         
     }.ensuring(_ => isDistinct(mergeXAcc(l1, l2, acc))) 
-
+    
+    /* Provided 2 distinct sorted lists to mergeX, which don't
+    have any common point ensures resulting list is also distinct */
     @ghostAnnot
     def mergeXDistinctLemma(l1: List[Point], l2: List[Point]): Unit = {
         require(isSortedX(l1) && isSortedX(l2) && isDistinct(l1) && isDistinct(l2) && l1.&(l2) == List[Point]())
@@ -213,12 +214,14 @@ object listLemmas:
     @ghostAnnot
     def lastIndexProperty(@induct l: List[Point]): Unit= {
     }.ensuring(_ => l.isEmpty || l(l.size -1) == l.last)
-
+    
+    /* Given a non-empty distinct list, it's init is also distinct */
     @ghostAnnot
     def initIsDistinct(@induct l: List[Point]): Unit = {
         require(isDistinct(l))
     }.ensuring(_ => l.isEmpty || isDistinct(l.init))
 
+    /* Given a distinct list, reversing it also produces a distinct list */
     @ghostAnnot
     def reversePreservesDistinct(l: List[Point]): Unit = {
         require(isDistinct(l))
@@ -240,7 +243,9 @@ object listLemmas:
         assert(l.isEmpty || !l.init.contains(l.last))
 
     }.ensuring(_ => isDistinct(l.reverse) && (l.isEmpty || !l.init.contains(l.last)))
-
+    
+    /* Provided 2 distinct sorted lists to mergeYAcc, which don't
+    have any common point ensures resulting list is also distinct */
     @ghostAnnot
     def mergeYAccDistinctLemma(l1: List[Point], l2: List[Point], acc: List[Point]): Unit = {
         require(isSortedY(l1) && isSortedY(l2) && isReverseSortedY(acc) && (l1.isEmpty || {val a = l1.head.y; acc.forall(p => p.y <= a)}) && (l2.isEmpty || {val a = l2.head.y; acc.forall(p => p.y <= a)}) && isDistinct(l1) && isDistinct(l2) && isDistinct(acc) && l1.&(l2) == List[Point]() && l1.&(acc) == List[Point]() && l2.&(acc) == List[Point]())
@@ -281,7 +286,9 @@ object listLemmas:
         }
 
     }.ensuring(_ => isDistinct(mergeYAcc(l1, l2, acc)))
-
+    
+    /* Provided 2 distinct sorted lists to mergeY, which don't
+    have any common point ensures resulting list is also distinct */
     @ghostAnnot
     def mergeYDistinctLemma(l1: List[Point], l2: List[Point]): Unit = {
         require(isSortedY(l1) && isSortedY(l2) && isDistinct(l1) && isDistinct(l2) && l1.&(l2) == List[Point]())

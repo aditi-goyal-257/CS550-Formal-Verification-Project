@@ -72,23 +72,25 @@ package helper:
         if l.isEmpty then true
         else l.forall(p => l.head.x <= p.x) && isSortedX(l.tail)
     }
-
+    
+    /* Check if list is reverse sorted by X coordinates */
     def isReverseSortedX(l: List[Point]): Boolean = {
         if l.isEmpty then true
         else l.forall(p => p.x <= l.head.x) && isReverseSortedX(l.tail)
     }
 
-     /* Lemma to imply transitivity of <= operation on elements of a list (x-coordinates) */
+    /* Lemma to imply transitivity of <= operation on elements of a list (x-coordinates) */
     @ghostAnnot
     def tranisitiveSortedListLemmaX(@induct l:List[Point], a: BigInt, b: BigInt) = {
         require(a <= b && l.forall(p => b <= p.x))
     }.ensuring(_ => l.forall(p => a <= p.x))
-
+    
+    /* Lemma to imply transitivity of >= operation on elements of a list (x-coordinates) */
     @ghostAnnot
     def tranisitiveSortedListIncreasingLemmaX(@induct l:List[Point], a: BigInt, b: BigInt) = {
         require(b <= a && l.forall(p => p.x <= b))
     }.ensuring(_ => l.forall(p => p.x <= a))
-
+    
     @ghostAnnot
     def mergeXLemma(p0: Point, l: List[Point]): Unit = {
         require(isReverseSortedX(l)  && l.forall(p => p.x <= p0.x))
@@ -98,7 +100,8 @@ package helper:
     def headSmallerX(@induct l: List[Point]): Unit = {
         require(isReverseSortedX(l))
     }.ensuring(_ => l.isEmpty || l.last.x <= l.head.x)
-
+    
+    /* Lemma to imply init of reverse sorted list is also reverse sorted */
     @ghostAnnot
     def initIsReverseSortedX(@induct l: List[Point]): Unit = {
         require(isReverseSortedX(l))
@@ -120,7 +123,8 @@ package helper:
         }
     }.ensuring(_ => l.isEmpty || (isReverseSortedX(l.init) && {val a = l.last.x; 
         l.init.forall(p => a <= p.x)}))
-
+    
+    /* Lemma to imply reverse of reverse sorted list is sorted */
     @ghostAnnot
     def reverseSortingLemmaX(l: List[Point]): Unit = {
         require(isReverseSortedX(l))
@@ -134,7 +138,6 @@ package helper:
             assert({val a = l.last.x; val b = l.init.reverse; b.forall(p => a <= p.x)})
             assert(isSortedX(l.init.reverse))
             reverseProperty(l)
-            // assert(l.init.reverse.forall())
         }
     }.ensuring(_ => isSortedX(l.reverse))
 
@@ -146,7 +149,8 @@ package helper:
             mergeX(mergeSortX(lhalf), mergeSortX(rhalf))
         }
     }.ensuring(res0 => l.size == res0.size && isSortedX(res0) && l.content == res0.content)
-
+    
+    /* Tail recursive merge operation keeping an accumulator */
     def mergeXAcc(l1: List[Point], l2: List[Point] , acc: List[Point]): List[Point] = {
         require(isSortedX(l1) && isSortedX(l2) && isReverseSortedX(acc) && (l1.isEmpty || {val a = l1.head.x; acc.forall(p => p.x <= a)}) && (l2.isEmpty || {val a = l2.head.x; acc.forall(p => p.x <= a)}))
         
@@ -214,7 +218,8 @@ package helper:
     def tranisitiveSortedListLemmaY(@induct l:List[Point], a: BigInt, b: BigInt) = {
         require(a <= b && l.forall(p => b <= p.y))
     }.ensuring(_ => l.size == 0 || l.forall(p => a <= p.y))
-
+    
+    /* Lemma to imply transitivity of >= operation on elements of a list (y-coordinates) */
     @ghostAnnot
     def tranisitiveSortedListIncreasingLemmaY(@induct l:List[Point], a: BigInt, b: BigInt) = {
         require(b <= a && l.forall(p => p.y <= b))
@@ -246,7 +251,6 @@ package helper:
                 wholeImpliesSubsetLemma(l.tail, List[Point](), l.init.tail, p => p.y <= l.head.y)
                 assert({val a = l.tail.last.y
                     l.tail.init.forall(p => a <= p.y)})
-                // assert(l.tail.last == l.last)
                 tranisitiveSortedListLemmaY(l.tail.init, l.last.y, l.tail.last.y)
                 assert({val a = l.last.y;
                     l.tail.init.forall(p => a <= p.y)})
@@ -255,11 +259,12 @@ package helper:
         }
     }.ensuring(_ => l.isEmpty || (isReverseSortedY(l.init) && {val a = l.last.y; 
         l.init.forall(p => a <= p.y)}))
-
+    
     @ghostAnnot
     def reverseProperty(@induct l:  List[Point]): Unit ={
     }.ensuring(_ => l.isEmpty || l.reverse == l.last :: l.init.reverse)
-
+    
+    /* Lemma to imply reverse of reverse sorted list is sorted */
     @ghostAnnot
     def reverseSortingLemmaY(l: List[Point]): Unit = {
         require(isReverseSortedY(l))
@@ -273,7 +278,6 @@ package helper:
             assert({val a = l.last.y; val b = l.init.reverse; b.forall(p => a <= p.y)})
             assert(isSortedY(l.init.reverse))
             reverseProperty(l)
-            // assert(l.init.reverse.forall())
         }
     }.ensuring(_ => isSortedY(l.reverse))
 
@@ -282,6 +286,7 @@ package helper:
         require(isReverseSortedY(l)  && l.forall(p => p.y <= p0.y))
     }.ensuring(_ => isReverseSortedY(p0 :: l))
 
+    /* Tail recursive merge operation keeping an accumulator */
     def mergeYAcc(l1: List[Point], l2: List[Point] , acc: List[Point]): List[Point] = {
         require(isSortedY(l1) && isSortedY(l2) && isReverseSortedY(acc) && (l1.isEmpty || {val a = l1.head.y; acc.forall(p => p.y <= a)}) && (l2.isEmpty || {val a = l2.head.y; acc.forall(p => p.y <= a)}))
         
@@ -322,6 +327,7 @@ package helper:
         
     }.ensuring(res0 => isReverseSortedY(res0) && l1.size + l2.size + acc.size == res0.size && l1.content ++ l2.content ++ acc.content == res0.content) 
 
+    /* Merge 2 lists sorted by X-coordinates to obtain a sorted list */
     def mergeY(l1: List[Point], l2: List[Point]): List[Point]={
         require(isSortedY(l1) && isSortedY(l2))
         val z = mergeYAcc(l1, l2, List[Point]())
