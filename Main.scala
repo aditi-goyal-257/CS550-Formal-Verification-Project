@@ -16,9 +16,7 @@ import lemmas.*
 
 object ClosestPoint {
 
-   /* Finds the point closest to p in list l (sorted by y-coordinates)
-   If there is no point which has distance less than d, then first point
-   having difference in y-coordinate from p of atleast d is returned */
+   /* Finds the point closest to p in list l (sorted by y-coordinates) If there is no point which has distance less than d, then first point having difference in y-coordinate from p of atleast d is returned */
 
     def findClosestPointInStrip(p: Point)(d: BigInt)(l: List[Point]): Point =
     {
@@ -36,8 +34,7 @@ object ClosestPoint {
     .ensuring(res0 => deltaSparsePoint(min(p.distance(res0), d), p, l) && l.contains(res0))
 
 
-    /* Finds the closest pair in strip. If the closest pair has distance atleast
-    as distance between points in x, then x is returned*/
+    /* Finds the closest pair in strip. If the closest pair has distance atleast as distance between points in x, then x is returned*/
 
     def findClosestPairInStrip(x: PairPoint)(@induct l: List[Point]):PairPoint =
     {
@@ -71,10 +68,9 @@ object ClosestPoint {
         findClosestPairInStrip(z)(l2)
     }.ensuring(res0 => deltaSparse(pairDistance(res0), l.filter(p => p.distance(Point(div, p.y)) < pairDistance(compare(lpoint, rpoint)))) && pairDistance(res0) <= pairDistance(compare(lpoint, rpoint)) && (lpoint ==res0 || rpoint ==res0 || l.contains(res0._1) && l.contains(res0._2)))
         
-    /* Find closest pair of points in list l sorted by x-coordinates.
-    Also returns l sorted by y-coordinates */
+    /* Find closest pair of points in list l sorted by x-coordinates. Also returns l sorted by y-coordinates */
 
-    def findClosestPairRec(l: List[Point]): (List[Point], PairPoint) ={
+    def findClosestPairRec(l: List[Point]): (List[Point], PairPoint) = {
         require(l.size >= 2 && isSortedX(l))
         decreases(l.size)
         if l.size <= 3 then bruteForce(l)
