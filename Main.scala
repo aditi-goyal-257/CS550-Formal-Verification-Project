@@ -60,13 +60,13 @@ object ClosestPoint {
     /* Combining answers from left and right halves separated by x-coordinate div */
 
     def combine(lpoint: PairPoint)(rpoint: PairPoint)(div: BigInt)(l: List[Point]): PairPoint = {
-        require(isSortedY(l))
+        require(isSortedY(l) && l.contains(lpoint._1) && l.contains(lpoint._2) && l.contains(rpoint._1) && l.contains(rpoint._2))
         val z = compare(lpoint, rpoint)
         val d = pairDistance(z)
         val l2 = l.filter(p => p.distance(Point(div, p.y)) < d)
         ghost { filterSorted(l, p => p.distance(Point(div, p.y)) < d) }
         findClosestPairInStrip(z)(l2)
-    }.ensuring(res0 => deltaSparse(pairDistance(res0), l.filter(p => p.distance(Point(div, p.y)) < pairDistance(compare(lpoint, rpoint)))) && pairDistance(res0) <= pairDistance(compare(lpoint, rpoint)) && (lpoint ==res0 || rpoint ==res0 || l.contains(res0._1) && l.contains(res0._2)))
+    }.ensuring(res0 => deltaSparse(pairDistance(res0), l.filter(p => p.distance(Point(div, p.y)) < pairDistance(compare(lpoint, rpoint)))) && pairDistance(res0) <= pairDistance(compare(lpoint, rpoint)) && l.contains(res0._1) && l.contains(res0._2))
         
     /* Find closest pair of points in list l sorted by x-coordinates. Also returns l sorted by y-coordinates */
 

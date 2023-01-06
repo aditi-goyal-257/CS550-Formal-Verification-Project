@@ -74,7 +74,7 @@ object lemmas:
     /* Correctness of the combine step */
     @ghostAnnot
     def combineLemma(ps: List[Point], pl: List[Point], pr: List[Point], l: BigInt, left_pair: PairPoint, right_pair: PairPoint, p: PairPoint) = {
-        require(isSortedY(ps) && ps.content == pl.content ++ pr.content && pl.forall(p => p.x <= l) && deltaSparse(pairDistance(left_pair), pl) && pr.forall(p => l <= p.x) && deltaSparse(pairDistance(right_pair), pr) && p == combine(left_pair)(right_pair)(l)(ps))
+        require(isSortedY(ps) && ps.content == pl.content ++ pr.content && pl.forall(p => p.x <= l) && deltaSparse(pairDistance(left_pair), pl) && pr.forall(p => l <= p.x) && deltaSparse(pairDistance(right_pair), pr) && ps.contains(left_pair._1) && ps.contains(left_pair._2) && ps.contains(right_pair._1) && ps.contains(right_pair._2) && p == combine(left_pair)(right_pair)(l)(ps))
         val d = pairDistance(p)
         if(!deltaSparse(d, ps)){
             val (p0, p1) = getCounterExampleDeltaSparsity(d, ps)
@@ -119,7 +119,7 @@ object lemmas:
 
     @ghostAnnot
     def combineDistinctLemma(lpoint: PairPoint, rpoint: PairPoint, div: BigInt, l: List[Point], res: PairPoint): Unit = {
-        require(lpoint._1 != lpoint._2 && rpoint._1 != rpoint._2 && isDistinct(l) && isSortedY(l) && res == combine(lpoint)(rpoint)(div)(l))
+        require(lpoint._1 != lpoint._2 && rpoint._1 != rpoint._2 && isDistinct(l) && isSortedY(l) && l.contains(lpoint._1) &&  l.contains(lpoint._2) && l.contains(rpoint._1) && l.contains(rpoint._2) &&res == combine(lpoint)(rpoint)(div)(l))
         val z = compare(lpoint, rpoint)
         val d = pairDistance(z)
         val l2 = l.filter(p => p.distance(Point(div, p.y)) < d)

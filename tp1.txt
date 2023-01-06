@@ -1,0 +1,15 @@
+    def findClosestPairInStrip(x: PairPoint)(l: List[Point]):PairPoint =
+    {
+        if l.isEmpty || l.tail.isEmpty then x
+        else {
+            val p1 = findClosestPointInStrip(l.head)(pairDistance(x))(l.tail)
+            if pairDistance(x) <= p1.distance(l.head) then{
+                val z = findClosestPairInStrip(x)(l.tail)
+                z
+            }
+            else {
+                val z = findClosestPairInStrip((l.head, p1))(l.tail)
+                z
+            }
+        }
+    }    
