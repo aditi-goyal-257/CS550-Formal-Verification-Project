@@ -3,3 +3,5 @@
 .vscode/
 stainless-stack-trace.txt
 runtime/runtimes.log
+runtime/bin/
+runtime/pics/
