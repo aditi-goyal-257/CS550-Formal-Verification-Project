@@ -1,20 +1,8 @@
-import stainless.collection._
-import stainless.lang._
-import stainless.annotation._
-import stainless.equations._
-import stainless.lang.StaticChecks._
-
 import scala.annotation.tailrec
 import java.io._
 
 import point2d.*
-import helper.*
-import listLemmas.*
-import sparsity.*
-import sparsityLemmas.*
-import bruteForce.*
-import lemmas.*
-import ClosestPoint.*
+import ClosestPointUnverified.*
 import Generator.*
 
 
@@ -37,7 +25,7 @@ object Testing:
 
     }
        
-    @extern def main(args: Array[String]): Unit = {
+    def main(args: Array[String]): Unit = {
 
         /* Self made test cases */
         // println(prettyDisplay(findClosestPair(List(Point(1,2), Point(3,4)))))
@@ -53,7 +41,7 @@ object Testing:
 
         val n = args(0).toInt
 
-        val fw = new FileWriter("runtimes.log", true)
+        val fw = new FileWriter("./bin/runtimes.log", true)
 
         for (ti <- 0 to 10) {
 

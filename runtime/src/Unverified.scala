@@ -1,9 +1,6 @@
 /* Implementation of function for finding closest pair of points */
 
-import stainless.collection._
-import stainless.lang._
-import stainless.annotation._
-import stainless.equations._
+
 
 import point2d.*
 
@@ -13,57 +10,89 @@ object ClosestPointUnverified:
         if x < y then x else y
     }
 
+    /* Merge sort function to sort a list of points according to their x-coordinates */
     def mergeSortX(l: List[Point]): List[Point] = {
         if l.isEmpty || l.tail.isEmpty then l
         else{
-            val (lhalf, rhalf) = l.splitAtIndex(l.size/2)
+            val (lhalf, rhalf) = l.splitAt(l.size/2)
             mergeX(mergeSortX(lhalf), mergeSortX(rhalf))
         }
     }
-    
+    /* Tail recursive merge operation keeping an accumulator */
+    def mergeXAcc(l1: List[Point], l2: List[Point] , acc: List[Point]): List[Point] = {
+        
+        if(l1.isEmpty && l2.isEmpty) then acc
+        else if (l1.isEmpty) then {
+            if(!l2.tail.isEmpty){
+                val a = l2.tail.head
+            }
+            mergeXAcc(l1 , l2.tail , l2.head :: acc)
+        }
+        else if (l2.isEmpty) then {
+            if(!l1.tail.isEmpty){
+            }
+            mergeXAcc( l1.tail, l2,  l1.head :: acc)
+        }
+        else if l1.head.x <= l2.head.x then {
+            if(!l1.tail.isEmpty){
+            }
+            mergeXAcc(l1.tail , l2 , l1.head :: acc)
+        }
+        else{
+            mergeXAcc(l1 , l2.tail , l2.head:: acc)
+        }
+        
+    }
     /* Merge 2 lists sorted by X-coordinates to obtain a sorted list */
     def mergeX(l1: List[Point], l2: List[Point]): List[Point]={
-        if l1.isEmpty then l2
-        else if l2.isEmpty then l1
-        else if l1.head.x <= l2.head.x then {
-            val z = mergeX(l1.tail, l2)
-            l1.head::z
-        }
-        else {
-            val z = mergeX(l1, l2.tail)
-            l2.head::z
-
-        }
+        val z = mergeXAcc(l1, l2, List[Point]())
+        z.reverse
     }
 
+
+    /* Tail recursive merge operation keeping an accumulator */
+    def mergeYAcc(l1: List[Point], l2: List[Point] , acc: List[Point]): List[Point] = {
+        
+        if(l1.isEmpty && l2.isEmpty) then acc
+        else if (l1.isEmpty) then {
+            if(!l2.tail.isEmpty){
+                val a = l2.tail.head
+            }
+            mergeYAcc(l1 , l2.tail , l2.head :: acc)
+        }
+        else if (l2.isEmpty) then {
+            mergeYAcc( l1.tail, l2,  l1.head :: acc)
+        }
+        else if l1.head.y <= l2.head.y then {
+            mergeYAcc(l1.tail , l2 , l1.head :: acc)
+        }
+        else{
+            mergeYAcc(l1 , l2.tail , l2.head:: acc)
+        }
+        
+    }
+
+    /* Merge 2 lists sorted by X-coordinates to obtain a sorted list */
+    def mergeY(l1: List[Point], l2: List[Point]): List[Point]={
+        val z = mergeYAcc(l1, l2, List[Point]())
+        z.reverse
+    }
+
+    /* Merge sort function to sort a list of points according to their y-coordinates */    
     def mergeSortY(l: List[Point]): List[Point] = {
         if l.isEmpty || l.tail.isEmpty then l
         else{
-            val (lhalf, rhalf) = l.splitAtIndex(l.size/2)
+            val (lhalf, rhalf) = l.splitAt(l.size/2)
             mergeY(mergeSortY(lhalf), mergeSortY(rhalf))
         }
     }
     
-    /* Merge 2 lists sorted by X-coordinates to obtain a sorted list */
-    def mergeY(l1: List[Point], l2: List[Point]): List[Point]={
-        if l1.isEmpty then l2
-        else if l2.isEmpty then l1
-        else if l1.head.y <= l2.head.y then {
-            val z = mergeY(l1.tail, l2)
-            l1.head::z
-        }
-        else {
-            val z = mergeY(l1, l2.tail) 
-            l2.head::z
-        }
-    }
 
    /* Finds the point closest to p in list l (sorted by y-coordinates)
    If there is no point which has distance less than d, then first point
    having difference in y-coordinate from p of atleast d is returned */
     def bruteForce(l: List[Point]): (List[Point], PairPoint) =  
     {
-        require(l.size <= 3 && l.size >= 2) 
         val z = mergeSortY(l)
         if l.size == 2 then (z, (l(0), l(1)))
         else {
@@ -96,7 +125,6 @@ object ClosestPointUnverified:
 
     def findClosestPointInStrip(p: Point)(d: BigInt)(l: List[Point]): Point =
     {
-        require(!l.isEmpty)
         if l.tail.isEmpty then l.head
         else if d <= (l.head.y - p.y)*(l.head.y - p.y) then {
             //transitiveDistanceProperty(p, d, l.head, l.tail)
@@ -139,11 +167,9 @@ object ClosestPointUnverified:
     Also returns l sorted by y-coordinates */
 
     def findClosestPairRec(l: List[Point]): (List[Point], PairPoint) ={
-        require(l.size >= 2)
-        decreases(l.size)
         if l.size <= 3 then bruteForce(l)
         else{
-            val (left_half, right_half) = l.splitAtIndex(l.size/2)
+            val (left_half, right_half) = l.splitAt(l.size/2)
             val (lsorted, lpoint) = findClosestPairRec(left_half)
             val (rsorted, rpoint) = findClosestPairRec(right_half)
             val sortedList = mergeY(lsorted, rsorted)
@@ -154,7 +180,6 @@ object ClosestPointUnverified:
     /* Find closest pair of points in list l */
 
     def findClosestPair(l: List[Point]): PairPoint = {
-        require(l.size >= 2)
         val p = findClosestPairRec(mergeSortX(l))._2
         p
     }
