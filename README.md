@@ -17,4 +17,4 @@ chmod u+rwx script.sh
 ```
 An example usage would be <code> ./script.sh /home/user/Desktop/CS550/stainless/ </code>
 
-You can now open Benchmarking.ipynb and runn all the cells. This notebook populates the pics folder where you can see your plots.
+You can now open Benchmarking.ipynb and run all the cells. This notebook populates the pics folder where you can see your plots.
